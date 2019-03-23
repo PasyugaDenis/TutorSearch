@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <DbName>TutorSearchBeta</DbName>
+  <BasePath>beta/public/userFiles</BasePath>
+  <StorageUrl>https://tutorsearch.blob.core.windows.net</StorageUrl>
+  <SiteUrl>https://betatutorsearch.azurewebsites.net</SiteUrl>
+  <DBConnectionString>tcp:tutorsearch.database.windows.net,1433;Initial Catalog=TutorSearchBeta;Persist Security Info=False;User ID=denis;Password=qwerty_123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;</DBConnectionString>
+  <StorageConnectionString>DefaultEndpointsProtocol=https;AccountName=tutorsearch;AccountKey=AWhyjSIlqJ0qWhdM/KXpUKuYoxozaAT1Ai8lo0lLgyg1fY+hHcC6ZcoSfOnn/ObwD3adRuL1xPiN3BOQc+ZFSQ==;EndpointSuffix=core.windows.net</StorageConnectionString>
+</configuration>
