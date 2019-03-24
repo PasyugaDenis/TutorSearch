@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.EntityFrameworkCore;
-using System.Configuration;
 using TutorSearch.Repositories.ChatRepository;
 using TutorSearch.Repositories.ContactRepository;
 using TutorSearch.Repositories.CourseRepository;
@@ -19,6 +14,14 @@ using TutorSearch.Repositories.RequestRepository;
 using TutorSearch.Repositories.StudentRepository;
 using TutorSearch.Repositories.TeacherRepository;
 using TutorSearch.Repositories.UserRepository;
+using TutorSearch.Services.ChatService;
+using TutorSearch.Services.ContactService;
+using TutorSearch.Services.CourseService;
+using TutorSearch.Services.MessageService;
+using TutorSearch.Services.RequestService;
+using TutorSearch.Services.StudentService;
+using TutorSearch.Services.TeacherService;
+using TutorSearch.Services.UserService;
 
 namespace TutorSearch
 {
@@ -95,6 +98,30 @@ namespace TutorSearch
 
         private void BindServices(IServiceCollection services)
         {
+            services.AddTransient<IChatReadService, ChatReadService>();
+            services.AddTransient<IChatWriteService, ChatWriteService>();
+
+            services.AddTransient<IContactReadService, ContactReadService>();
+            services.AddTransient<IContactWriteService, ContactWriteService>();
+
+            services.AddTransient<ICourseReadService, CourseReadService>();
+            services.AddTransient<ICourseWriteService, CourseWriteService>();
+
+            services.AddTransient<IMessageReadService, MessageReadService>();
+            services.AddTransient<IMessageWriteService, MessageWriteService>();
+
+            services.AddTransient<IRequestReadService, RequestReadService>();
+            services.AddTransient<IRequestWriteService, RequestWriteService>();
+
+            services.AddTransient<IStudentReadService, StudentReadService>();
+            services.AddTransient<IStudentWriteService, StudentWriteService>();
+
+            services.AddTransient<ITeacherReadService, TeacherReadService>();
+            services.AddTransient<ITeacherWriteService, TeacherWriteService>();
+
+            services.AddTransient<IUserReadService, UserReadService>();
+            services.AddTransient<IUserWriteService, UserWriteService>();
+
         }
 
         private void BindRepositories(IServiceCollection services)
