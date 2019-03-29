@@ -76,7 +76,7 @@ namespace TutorSearch.Services.UserService
         }
 
         //Utils
-        private string HashPassword(string password)
+        public string HashPassword(string password)
         {
             var bytes = Encoding.Unicode.GetBytes(password);
 

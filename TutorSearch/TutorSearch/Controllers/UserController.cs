@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using TutorSearch.Helpers;
 using TutorSearch.Models.Entities;
 using TutorSearch.Models.Request;
+using TutorSearch.Repositories.UserRepository;
 using TutorSearch.Services.UserService;
 
 namespace TutorSearch.Controllers
@@ -59,6 +60,39 @@ namespace TutorSearch.Controllers
                     return JsonResults.Success(new { token, userId, userRole });
                 }
                 catch(Exception ex)
+                {
+                    return JsonResults.Error(0, ex.Message);
+                }
+            }
+        }
+
+        [Route("Authorization")]
+        [HttpPost]
+        public async Task<ActionResult> Authorization(UserRequestModel model)
+        {
+            var user = await userReadService.CheckUserByPassword(model.Email, model.Password);
+
+            if (user == null)
+            {
+                return JsonResults.Error(0, "User not registered");
+            }
+            else
+            {
+                try
+                {
+
+
+                    var role = user.IsTeacher ? "Teacher" : "Student";
+
+                    var identity = SignIn(user.Email, role);
+
+                    var token = GetUserToken(identity);
+
+                    var userRole = user.IsTeacher ? 1 : 0;
+
+                    return JsonResults.Success(new { token, user.Id, userRole });
+                }
+                catch (Exception ex)
                 {
                     return JsonResults.Error(0, ex.Message);
                 }
