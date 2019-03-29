@@ -9,5 +9,7 @@ namespace TutorSearch.Repositories.UserRepository
         Task<User> GetAsync(int id);
 
         Task<List<User>> GetAllAsync();
+
+        Task<User> GetByEmailAsync(string email);
     }
 }

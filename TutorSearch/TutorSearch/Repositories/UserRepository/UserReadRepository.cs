@@ -28,5 +28,13 @@ namespace TutorSearch.Repositories.UserRepository
             var result = dbContext.Users.ToListAsync();
             return result;
         }
+
+        public Task<User> GetByEmailAsync(string email)
+        {
+            var result = dbContext.Users.Where(m => m.Email == email)
+                .SingleOrDefaultAsync();
+
+            return result;
+        }
     }
 }
