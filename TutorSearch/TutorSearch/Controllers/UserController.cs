@@ -65,6 +65,44 @@ namespace TutorSearch.Controllers
             }
         }
 
+        [Route("Authorization")]
+        [HttpPost]
+        public async Task<ActionResult> Authorization(AuthorizationRequestModel model)
+        {
+            var user = await userReadService.SearchAuthorizationUserAsync(model.Email);
+
+            if (user == null)
+            {
+                return JsonResults.Error(0, "User not registered");
+            }
+            else
+            {
+                try
+                {
+                    var isCorrectPassword = userReadService.CheckUserCorrectPassword(model.Password, user.Password);
+
+                    if (!isCorrectPassword)
+                    {
+                        return JsonResults.Error(0, "Incorrect password");
+                    }
+
+                    var role = user.IsTeacher ? "Teacher" : "Student";
+
+                    var identity = SignIn(user.Email, role);
+
+                    var token = GetUserToken(identity);
+                    var userId = user.Id;
+                    var userRole = user.IsTeacher ? 1 : 0;
+
+                    return JsonResults.Success(new { token, userId, userRole });
+                }
+                catch (Exception ex)
+                {
+                    return JsonResults.Error(0, ex.Message);
+                }
+            }
+        }
+
         //Utills
         private ClaimsIdentity SignIn(string email, string role)
         {
