@@ -69,7 +69,7 @@ namespace TutorSearch.Controllers
         [HttpPost]
         public async Task<ActionResult> Authorization(AuthorizationRequestModel model)
         {
-            var user = await userReadService.CheckAuthorizationUser(model.Email, model.Password);
+            var user = await userReadService.SearchAuthorizationUserAsync(model.Email);
 
             if (user == null)
             {
@@ -79,6 +79,13 @@ namespace TutorSearch.Controllers
             {
                 try
                 {
+                    var isCorrectPassword = userReadService.CheckUserCorrectPassword(model.Password, user.Password);
+
+                    if (!isCorrectPassword)
+                    {
+                        return JsonResults.Error(0, "Incorrect password");
+                    }
+
                     var role = user.IsTeacher ? "Teacher" : "Student";
 
                     var identity = SignIn(user.Email, role);
