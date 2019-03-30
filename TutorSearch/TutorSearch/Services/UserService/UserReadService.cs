@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using TutorSearch.Models.Entities;
 using TutorSearch.Repositories.UserRepository;
 
 namespace TutorSearch.Services.UserService
@@ -6,11 +7,14 @@ namespace TutorSearch.Services.UserService
     public class UserReadService : IUserReadService
     {
         private IUserReadRepository userReadRepository;
+        private IUserWriteService userWriteService;
 
         public UserReadService(
-            IUserReadRepository userReadRepository)
+            IUserReadRepository userReadRepository,
+            IUserWriteService userWriteService)
         {
             this.userReadRepository = userReadRepository;
+            this.userWriteService = userWriteService;
         }
 
         public async Task<bool> CheckUserByEmailAsync(string email)
@@ -18,6 +22,13 @@ namespace TutorSearch.Services.UserService
             var user = await userReadRepository.GetByEmailAsync(email);
 
             return user != null;
+        }
+
+        public async Task<User> CheckAuthorizationUser(string email, string password)
+        {
+            var user = await userReadRepository.GetByEmailAsync(email);
+            
+            return user.Password == userWriteService.HashPassword(password) ? user : null;
         }
     }
 }
