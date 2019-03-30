@@ -7,6 +7,6 @@ namespace TutorSearch.Services.UserService
     {
         Task<bool> CheckUserByEmailAsync(string email);
         Task<User> SearchAuthorizationUserAsync(string email);
-        bool CheckUserCorrectPassword(string enterPassword, string userPassword);
+        bool CheckUserCorrectPassword(string enterPassword, string hashUserPassword);
     }
 }

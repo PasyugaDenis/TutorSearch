@@ -1,11 +1,7 @@
-<<<<<<< a4d9f3e4249ad5b7508e5ad723fc57ca805e5275
-﻿using System.Threading.Tasks;
-=======
-﻿using System.Security.Cryptography;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using TutorSearch.Models.Entities;
->>>>>>> [task_6] Authorization
 using TutorSearch.Repositories.UserRepository;
 
 namespace TutorSearch.Services.UserService
@@ -13,14 +9,11 @@ namespace TutorSearch.Services.UserService
     public class UserReadService : IUserReadService
     {
         private IUserReadRepository userReadRepository;
-        private IUserWriteService userWriteService;
 
         public UserReadService(
-            IUserReadRepository userReadRepository,
-            IUserWriteService userWriteService)
+            IUserReadRepository userReadRepository)
         {
             this.userReadRepository = userReadRepository;
-            this.userWriteService = userWriteService;
         }
 
         public async Task<bool> CheckUserByEmailAsync(string email)
@@ -37,9 +30,9 @@ namespace TutorSearch.Services.UserService
             return user;
         }
 
-        public bool CheckUserCorrectPassword(string enteredPassword, string userPassword)
+        public bool CheckUserCorrectPassword(string enteredPassword, string hashUserPassword)
         {
-            return HashPassword(enteredPassword) == userPassword ? true : false;
+            return HashPassword(enteredPassword) == hashUserPassword ? true : false;
         }
 
         //Utils
