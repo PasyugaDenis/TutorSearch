@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using TutorSearch.Helpers;
 using TutorSearch.Models.Entities;
 using TutorSearch.Models.Request;
+using TutorSearch.Services.StudentService;
+using TutorSearch.Services.TeacherService;
 using TutorSearch.Services.UserService;
 
 namespace TutorSearch.Controllers
@@ -20,16 +22,24 @@ namespace TutorSearch.Controllers
         private IConfiguration settings;
         private IUserReadService userReadService;
         private IUserWriteService userWriteService;
+        private ITeacherReadService teacherReadService;
+        private IStudentReadService studentReadService;
 
         public UserController(
             IConfiguration settings,
             IUserReadService userReadService,
-            IUserWriteService userWriteService)
+            IUserWriteService userWriteService,
+            ITeacherReadService teacherReadService,
+            IStudentReadService studentReadService)
         {
             this.settings = settings;
 
             this.userReadService = userReadService;
             this.userWriteService = userWriteService;
+
+            this.teacherReadService = teacherReadService;
+
+            this.studentReadService = studentReadService;
         }
 
         [Route("Registration")]
@@ -100,6 +110,31 @@ namespace TutorSearch.Controllers
                 {
                     return JsonResults.Error(0, ex.Message);
                 }
+            }
+        }
+
+        [Route("ViewProfile")]
+        [HttpPost]
+        public async Task<ActionResult> ViewProfile(ViewProfileRequestModel model)
+        {
+            dynamic response = null;
+
+            if (model.IsTeacher)
+            {
+                response = await teacherReadService.ViewTeacherByIdAsync(model.Id);
+            }
+            else
+            {
+                response = await studentReadService.ViewStudentByIdAsync(model.Id);
+            }
+         
+            if (response == null)
+            {
+                return JsonResults.Error(0, "User NotFound");
+            }
+            else
+            {
+                return JsonResults.Success(response);
             }
         }
 
