@@ -29,6 +29,11 @@ namespace TutorSearch.Web.Services.UserService
             this.teacherWriteRepository = teacherWriteRepository;
         }
 
+        public async Task EditUserAsync(User model)
+        {
+            await userWriteRepository.UpdateAsync(model);
+        }
+
         public async Task<User> RegisterUserAsync(UserRequestModel model)
         {
             var maxId = await userReadRepository.GetMaxIdAsync() ?? 0;

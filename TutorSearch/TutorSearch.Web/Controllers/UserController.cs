@@ -21,15 +21,22 @@ namespace TutorSearch.Web.Controllers
 
         private IUserReadService userReadService;
         private IUserWriteService userWriteService;
+
+        private IStudentReadService studentReadService;
         private IStudentWriteService studentWriteService;
+
+        private ITeacherReadService teacherReadService;
         private ITeacherWriteService teacherWriteService;
+
         private IContactWriteService contactWriteService;
 
         public UserController(
             TutorSearchConfiguration settings,
             IUserReadService userReadService,
             IUserWriteService userWriteService,
+            IStudentReadService studentReadService,
             IStudentWriteService studentWriteService,
+            ITeacherReadService teacherReadService,
             ITeacherWriteService teacherWriteService,
             IContactWriteService contactWriteService)
         {
@@ -37,8 +44,13 @@ namespace TutorSearch.Web.Controllers
 
             this.userReadService = userReadService;
             this.userWriteService = userWriteService;
+
+            this.studentReadService = studentReadService;
             this.studentWriteService = studentWriteService;
+
+            this.teacherReadService = teacherReadService;
             this.teacherWriteService = teacherWriteService;
+
             this.contactWriteService = contactWriteService;
         }
 
@@ -144,6 +156,30 @@ namespace TutorSearch.Web.Controllers
                 {
                     return JsonResults.Error(0, ex.Message);
                 }
+            }
+        }
+
+        [HttpPost]
+        public async Task<object> ViewProfile(ViewProfileRequestModel model)
+        {
+            dynamic response = null;
+
+            if (model.IsTeacher)
+            {
+                response = await teacherReadService.ViewTeacherByIdAsync(model.Id);
+            }
+            else
+            {
+                response = await studentReadService.ViewStudentByIdAsync(model.Id);
+            }
+
+            if (response == null)
+            {
+                return JsonResults.Error(0, "User NotFound");
+            }
+            else
+            {
+                return JsonResults.Success(response);
             }
         }
 

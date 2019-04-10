@@ -6,5 +6,7 @@ namespace TutorSearch.Web.Services.TeacherService
     public interface ITeacherWriteService
     {
         Task AddTeacherAsync(Teacher model);
+
+        Task EditTeacherAsync(Teacher model);
     }
 }
