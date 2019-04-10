@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using TutorSearch.Web.Models.Entities;
 using TutorSearch.Web.Models.Response;
 using TutorSearch.Web.Repositories.StudentRepository;
 using TutorSearch.Web.Repositories.UserRepository;
@@ -16,6 +17,13 @@ namespace TutorSearch.Web.Services.StudentService
         {
             this.studentReadRepository = studentReadRepository;
             this.userReadRepository = userReadRepository;
+        }
+
+        public async Task<Student> GetByIdAsync(int id)
+        {
+            var model = await studentReadRepository.GetAsync(id);
+
+            return model;
         }
 
         public async Task<StudentViewModel> ViewStudentByIdAsync(int id)

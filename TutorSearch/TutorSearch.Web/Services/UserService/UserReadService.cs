@@ -16,6 +16,13 @@ namespace TutorSearch.Web.Services.UserService
             this.userReadRepository = userReadRepository;
         }
 
+        public async Task<User> GetByIdAsync(int id)
+        {
+            var user = await userReadRepository.GetAsync(id);
+
+            return user;
+        }
+
         public async Task<bool> CheckUserByEmailAsync(string email)
         {
             var user = await userReadRepository.GetByEmailAsync(email);

@@ -14,9 +14,14 @@ namespace TutorSearch.Web.Services.StudentService
             this.studentWriteRepository = studentWriteRepository;
         }
 
-        public Task AddStudentAsync(Student model)
+        public async Task AddStudentAsync(Student model)
         {
-            return studentWriteRepository.AddAsync(model);
+            await studentWriteRepository.AddAsync(model);
+        }
+
+        public async Task EditStudentAsync(Student model)
+        {
+            await studentWriteRepository.UpdateAsync(model);
         }
     }
 }
