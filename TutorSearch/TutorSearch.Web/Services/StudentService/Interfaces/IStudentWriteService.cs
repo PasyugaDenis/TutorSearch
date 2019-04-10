@@ -6,5 +6,7 @@ namespace TutorSearch.Web.Services.StudentService
     public interface IStudentWriteService
     {
         Task AddStudentAsync(Student model);
+
+        Task EditStudentAsync(Student model);
     }
 }

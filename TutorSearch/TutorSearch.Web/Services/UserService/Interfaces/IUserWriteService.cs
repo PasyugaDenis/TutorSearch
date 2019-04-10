@@ -6,6 +6,8 @@ namespace TutorSearch.Web.Services.UserService
 {
     public interface IUserWriteService
     {
+        Task EditUserAsync(User model);
+
         Task<User> RegisterUserAsync(UserRequestModel model);
 
         string HashPassword(string password);
