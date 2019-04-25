@@ -86,10 +86,9 @@ namespace TutorSearch.Web.Controllers
                         var teacher = new Teacher
                         {
                             Id = newUser.Id,
-                            Education = "",
+                            Type = "",
                             Skill = "",
-                            ContactsId = contact.Id,
-                            City = ""
+                            ContactsId = contact.Id
                         };
 
                         await teacherWriteService.AddTeacherAsync(teacher);

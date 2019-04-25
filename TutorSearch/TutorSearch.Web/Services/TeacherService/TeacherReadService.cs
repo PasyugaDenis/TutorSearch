@@ -42,12 +42,11 @@ namespace TutorSearch.Web.Services.TeacherService
                 Email = user.Email,
                 Phone = user.Phone,
                 isTeacher = user.IsTeacher,
-                Type = teacher.Education,
+                Type = teacher.Type,
                 Skill = teacher.Skill,
                 WorkExperience = teacher.WorkExperience,
                 IsPrivate = teacher.IsPrivate,
-                Description = teacher.Description,
-                City = teacher.City
+                Description = teacher.Description
             };
 
             return teacherViewModel;
