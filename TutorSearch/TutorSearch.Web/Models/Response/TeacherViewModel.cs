@@ -25,5 +25,7 @@ namespace TutorSearch.Web.Models.Response
         public bool IsPrivate { get; set; }
 
         public string Description { get; set; }
+
+        public string City { get; set; }
     }
 }
