@@ -160,30 +160,6 @@ namespace TutorSearch.Web.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<object> ViewProfile(ViewProfileRequest model)
-        {
-            dynamic response = null;
-
-            if (model.IsTeacher)
-            {
-                response = await teacherReadService.ViewTeacherByIdAsync(model.Id);
-            }
-            else
-            {
-                response = await studentReadService.ViewStudentByIdAsync(model.Id);
-            }
-
-            if (response == null)
-            {
-                return JsonResults.Error(401, "User NotFound");
-            }
-            else
-            {
-                return JsonResults.Success(response);
-            }
-        }
-
         //Utills
         private ClaimsIdentity SignIn(string email, string role)
         {
