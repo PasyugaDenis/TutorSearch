@@ -8,7 +8,7 @@ namespace TutorSearch.Web.Services.UserService
     {
         Task EditUserAsync(User model);
 
-        Task<User> RegisterUserAsync(UserRequestModel model);
+        Task<User> RegisterUserAsync(UserRequest model);
 
         string HashPassword(string password);
     }

@@ -28,5 +28,29 @@ namespace TutorSearch.Web.Repositories.CourseRepository
             var result = dbContext.Courses.ToListAsync();
             return result;
         }
+
+        public Task<List<Course>> SearchAsync(int? teacherId, bool? isClosed, string[] searchValues)
+        {
+            IQueryable<Course> result = dbContext.Courses.AsQueryable();
+
+            if (teacherId.HasValue)
+            {
+                result = result.Where(m => m.TeacherId == teacherId.Value);
+            }
+
+            if (isClosed.HasValue)
+            {
+                result = result.Where(m => m.IsClosed == isClosed.Value);
+            }
+
+            if (searchValues.Length > 0)
+            {
+                result = result.Where(m =>
+                    searchValues.Contains(m.Title) ||
+                    searchValues.Contains(m.Specialty));
+            }
+
+            return result.ToListAsync();
+        }
     }
 }

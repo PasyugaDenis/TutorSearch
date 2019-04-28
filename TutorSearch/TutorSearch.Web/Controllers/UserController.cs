@@ -61,7 +61,7 @@ namespace TutorSearch.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<object> Registration(UserRequestModel model)
+        public async Task<object> Registration(UserRequest model)
         {
             var isUserContain = await userReadService.CheckUserByEmailAsync(model.Email);
 
@@ -124,13 +124,13 @@ namespace TutorSearch.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<object> Authorization(AuthorizationRequestModel model)
+        public async Task<object> Authorization(AuthorizationRequest model)
         {
             var user = await userReadService.SearchAuthorizationUserAsync(model.Email);
 
             if (user == null)
             {
-                return JsonResults.Error(0, "User not registered");
+                return JsonResults.Error(401, "User not registered");
             }
             else
             {
@@ -140,7 +140,7 @@ namespace TutorSearch.Web.Controllers
 
                     if (!isCorrectPassword)
                     {
-                        return JsonResults.Error(0, "Incorrect password");
+                        return JsonResults.Error(402, "Incorrect password");
                     }
 
                     var role = user.IsTeacher ? "Teacher" : "Student";
@@ -155,13 +155,13 @@ namespace TutorSearch.Web.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return JsonResults.Error(0, ex.Message);
+                    return JsonResults.Error(400, ex.Message);
                 }
             }
         }
 
         [HttpPost]
-        public async Task<object> ViewProfile(ViewProfileRequestModel model)
+        public async Task<object> ViewProfile(ViewProfileRequest model)
         {
             dynamic response = null;
 
@@ -176,7 +176,7 @@ namespace TutorSearch.Web.Controllers
 
             if (response == null)
             {
-                return JsonResults.Error(0, "User NotFound");
+                return JsonResults.Error(401, "User NotFound");
             }
             else
             {

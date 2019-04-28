@@ -1,6 +1,12 @@
-﻿namespace TutorSearch.Web.Services.CourseService
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using TutorSearch.Web.Models.Entities;
+using TutorSearch.Web.Models.Request;
+
+namespace TutorSearch.Web.Services.CourseService
 {
     public interface ICourseReadService
     {
+        Task<List<Course>> GetListAsync(CourseFilterRequest filter);
     }
 }

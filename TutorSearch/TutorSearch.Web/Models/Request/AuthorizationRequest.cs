@@ -1,6 +1,6 @@
 ﻿namespace TutorSearch.Web.Models.Request
 {
-    public class AuthorizationRequestModel
+    public class AuthorizationRequest
     {
         public string Email { get; set; }
 
