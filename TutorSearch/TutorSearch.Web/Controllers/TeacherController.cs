@@ -29,6 +29,21 @@ namespace TutorSearch.Web.Controllers
             this.teacherWriteService = teacherWriteService;
         }
 
+        [HttpGet]
+        public async Task<object> ViewProfile(int userId)
+        {
+            var response = await teacherReadService.ViewTeacherByIdAsync(userId);
+
+            if (response == null)
+            {
+                return JsonResults.Error(0, "User NotFound");
+            }
+            else
+            {
+                return JsonResults.Success(response);
+            }
+        }
+
         [HttpPost]
         public async Task<object> Edit(TeacherRequest model)
         {
