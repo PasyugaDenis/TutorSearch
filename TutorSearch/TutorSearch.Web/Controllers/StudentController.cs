@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using TutorSearch.Web.Helpers;
@@ -34,27 +30,28 @@ namespace TutorSearch.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<object> Edit(StudentRequestModel model)
+        public async Task<object> Edit(StudentRequest model)
         {
             try
             {
                 //Edit user
                 var user = await userReadService.GetByIdAsync(model.Id);
 
-                user.Name = model.Name;
-                user.Surname = model.Surname;
-                user.Birthday = model.Birthday.Value;
+                user.Name = model.Name ?? "";
+                user.Surname = model.Surname ?? "";
+                user.Birthday = model.Birthday ?? new DateTime();
                 user.Email = model.Email;
-                user.Phone = model.Phone;
+                user.Phone = model.Phone ?? "";
 
                 await userWriteService.EditUserAsync(user);
 
                 //Edit student
                 var student = await studentReadService.GetByIdAsync(model.Id);
 
-                student.Type = model.Type;
-                student.Skill = model.Skill;
+                student.Type = model.Type ?? "";
+                student.Skill = model.Skill ?? "";
                 student.Education = model.Education;
+                student.Description = model.Description;
 
                 await studentWriteService.EditStudentAsync(student);
 

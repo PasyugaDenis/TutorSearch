@@ -207,6 +207,7 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="AuthOptions.cs" />
+    <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -225,11 +226,12 @@
     <Compile Include="Models\Entities\Student.cs" />
     <Compile Include="Models\Entities\Teacher.cs" />
     <Compile Include="Models\Entities\User.cs" />
-    <Compile Include="Models\Request\AuthorizationRequestModel.cs" />
-    <Compile Include="Models\Request\StudentRequestModel.cs" />
-    <Compile Include="Models\Request\TeacherRequestModel.cs" />
-    <Compile Include="Models\Request\UserRequestModel.cs" />
-    <Compile Include="Models\Request\ViewProfileRequestModel.cs" />
+    <Compile Include="Models\Request\AuthorizationRequest.cs" />
+    <Compile Include="Models\Request\CourseFilterRequest.cs" />
+    <Compile Include="Models\Request\StudentRequest.cs" />
+    <Compile Include="Models\Request\TeacherRequest.cs" />
+    <Compile Include="Models\Request\UserRequest.cs" />
+    <Compile Include="Models\Request\ViewProfileRequest.cs" />
     <Compile Include="Models\Response\StudentViewModel.cs" />
     <Compile Include="Models\Response\TeacherViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

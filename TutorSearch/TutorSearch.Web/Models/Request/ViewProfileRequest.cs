@@ -1,6 +1,6 @@
 ﻿namespace TutorSearch.Web.Models.Request
 {
-    public class ViewProfileRequestModel
+    public class ViewProfileRequest
     {
         public int Id { get; set; }
 

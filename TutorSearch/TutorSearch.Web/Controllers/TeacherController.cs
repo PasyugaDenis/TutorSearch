@@ -30,29 +30,30 @@ namespace TutorSearch.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<object> Edit(TeacherRequestModel model)
+        public async Task<object> Edit(TeacherRequest model)
         {
             try
             {
                 //Edit user
                 var user = await userReadService.GetByIdAsync(model.Id);
 
-                user.Name = model.Name;
-                user.Surname = model.Surname;
-                user.Birthday = model.Birthday.Value;
+                user.Name = model.Name ?? "";
+                user.Surname = model.Surname ?? "";
+                user.Birthday = model.Birthday ?? new DateTime();
                 user.Email = model.Email;
-                user.Phone = model.Phone;
+                user.Phone = model.Phone ?? "";
 
                 await userWriteService.EditUserAsync(user);
 
                 //Edit teacher
                 var teacher = await teacherReadService.GetByIdAsync(model.Id);
 
-                teacher.Education = model.Education;
-                teacher.Skill = model.Skill;
+                teacher.Education = model.Education ?? "";
+                teacher.Skill = model.Skill ?? "";
                 teacher.WorkExperience = model.WorkExperience;
                 teacher.IsPrivate = model.IsPrivate;
-                teacher.City = model.City;
+                teacher.City = model.City ?? "";
+                teacher.Description = model.Description;
 
                 await teacherWriteService.EditTeacherAsync(teacher);
 

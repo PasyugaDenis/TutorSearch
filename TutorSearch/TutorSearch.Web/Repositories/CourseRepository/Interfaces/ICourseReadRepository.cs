@@ -9,5 +9,7 @@ namespace TutorSearch.Web.Repositories.CourseRepository
         Task<Course> GetAsync(int id);
 
         Task<List<Course>> GetAllAsync();
+
+        Task<List<Course>> SearchAsync(int? teacherId, bool? isClosed, string[] searchValues);
     }
 }

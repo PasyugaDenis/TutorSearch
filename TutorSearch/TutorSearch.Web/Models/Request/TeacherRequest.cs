@@ -1,6 +1,6 @@
 ﻿namespace TutorSearch.Web.Models.Request
 {
-    public class TeacherRequestModel : UserRequestModel
+    public class TeacherRequest : UserRequest
     {
         public string Education { get; set; }
 

@@ -2,7 +2,7 @@
 
 namespace TutorSearch.Web.Models.Request
 {
-    public class UserRequestModel
+    public class UserRequest
     {
         public int Id { get; set; }
 
