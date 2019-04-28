@@ -48,10 +48,11 @@ namespace TutorSearch.Web.Controllers
                 //Edit teacher
                 var teacher = await teacherReadService.GetByIdAsync(model.Id);
 
-                teacher.Type = model.Type;
+                teacher.Education = model.Education;
                 teacher.Skill = model.Skill;
                 teacher.WorkExperience = model.WorkExperience;
                 teacher.IsPrivate = model.IsPrivate;
+                teacher.City = model.City;
 
                 await teacherWriteService.EditTeacherAsync(teacher);
 

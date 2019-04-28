@@ -86,8 +86,9 @@ namespace TutorSearch.Web.Controllers
                         var teacher = new Teacher
                         {
                             Id = newUser.Id,
-                            Type = "",
+                            Education = "",
                             Skill = "",
+                            City = "",
                             ContactsId = contact.Id
                         };
 
