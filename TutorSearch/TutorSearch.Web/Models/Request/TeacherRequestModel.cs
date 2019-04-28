@@ -2,7 +2,7 @@
 {
     public class TeacherRequestModel : UserRequestModel
     {
-        public string Type { get; set; }
+        public string Education { get; set; }
 
         public string Skill { get; set; }
 
@@ -11,5 +11,7 @@
         public bool IsPrivate { get; set; }
 
         public string Description { get; set; }
+
+        public string City { get; set; }
     }
 }
