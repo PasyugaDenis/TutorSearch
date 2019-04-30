@@ -5,7 +5,7 @@ namespace TutorSearch.Web.Repositories.MessageRepository
 {
     public interface IMessageWriteRepository
     {
-        Task AddAsync(Message message);
+        Task<Message> AddAsync(Message message);
 
         Task UpdateAsync(Message message);
 

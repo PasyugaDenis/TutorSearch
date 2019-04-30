@@ -5,7 +5,7 @@ namespace TutorSearch.Web.Repositories.UserRepository
 {
     public interface IUserWriteRepository
     {
-        Task AddAsync(User user);
+        Task<User> AddAsync(User user);
 
         Task UpdateAsync(User user);
 

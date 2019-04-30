@@ -13,19 +13,21 @@ namespace TutorSearch.Web.Repositories.ContactRepository
             this.dbContext = dbContext;
         }
 
-        public Task AddAsync(Contact contact)
+        public async Task<Contacts> AddAsync(Contacts contact)
         {
-            dbContext.Contacts.Add(contact);
-            return dbContext.SaveChangesAsync();
+            var result = dbContext.Contacts.Add(contact);
+            await dbContext.SaveChangesAsync();
+
+            return result;
         }
 
-        public Task UpdateAsync(Contact contact)
+        public Task UpdateAsync(Contacts contact)
         {
             dbContext.Entry(contact).State = EntityState.Modified;
             return dbContext.SaveChangesAsync();
         }
 
-        public Task RemoveAsync(Contact contact)
+        public Task RemoveAsync(Contacts contact)
         {
             dbContext.Contacts.Remove(contact);
             return dbContext.SaveChangesAsync();

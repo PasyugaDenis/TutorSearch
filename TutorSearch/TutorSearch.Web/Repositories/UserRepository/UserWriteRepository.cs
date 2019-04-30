@@ -13,10 +13,13 @@ namespace TutorSearch.Web.Repositories.UserRepository
             this.dbContext = dbContext;
         }
 
-        public Task AddAsync(User user)
+        public async Task<User> AddAsync(User user)
         {
-            dbContext.Users.Add(user);
-            return dbContext.SaveChangesAsync();
+            var result = dbContext.Users.Add(user);
+
+            await dbContext.SaveChangesAsync();
+
+            return result;
         }
 
         public Task UpdateAsync(User user)

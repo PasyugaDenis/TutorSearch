@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TutorSearch.Web.Models.Entities
 {
@@ -14,5 +15,10 @@ namespace TutorSearch.Web.Models.Entities
         public string Education { get; set; }
 
         public string Description { get; set; }
+
+
+        public virtual User User { get; set; }
+
+        public virtual ICollection<Request> Requests { get; set; }
     }
 }

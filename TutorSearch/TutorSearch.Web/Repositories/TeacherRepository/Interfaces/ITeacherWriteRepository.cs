@@ -5,7 +5,7 @@ namespace TutorSearch.Web.Repositories.TeacherRepository
 {
     public interface ITeacherWriteRepository
     {
-        Task AddAsync(Teacher user);
+        Task<Teacher> AddAsync(Teacher user);
 
         Task UpdateAsync(Teacher user);
 

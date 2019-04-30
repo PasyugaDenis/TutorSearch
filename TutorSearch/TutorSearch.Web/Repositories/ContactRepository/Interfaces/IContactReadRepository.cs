@@ -8,8 +8,8 @@ namespace TutorSearch.Web.Repositories.ContactRepository
     {
         Task<int?> GetMaxIdAsync();
 
-        Task<Contact> GetAsync(int id);
+        Task<Contacts> GetAsync(int id);
 
-        Task<List<Contact>> GetAllAsync();
+        Task<List<Contacts>> GetAllAsync();
     }
 }

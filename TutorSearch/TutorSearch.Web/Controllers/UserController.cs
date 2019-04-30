@@ -75,38 +75,32 @@ namespace TutorSearch.Web.Controllers
                 {
                     string role;
 
-                    var newUser = await userWriteService.RegisterUserAsync(model);
+                    var user = new User
+                    {
+                        Email = model.Email,
+                        Password = userWriteService.HashPassword(model.Password),
+                        IsTeacher = model.IsTeacher
+                    };
 
-                    if (newUser.IsTeacher)
+                    if (model.IsTeacher)
                     {
                         role = "Teacher";
 
-                        var contact = await contactWriteService.AddContactAsync();
+                        var contacts = await contactWriteService.AddContactAsync();
 
-                        var teacher = new Teacher
+                        user.Teacher = new Teacher
                         {
-                            Id = newUser.Id,
-                            Education = "",
-                            Skill = "",
-                            City = "",
-                            ContactsId = contact.Id
+                            ContactsId = contacts.Id
                         };
-
-                        await teacherWriteService.AddTeacherAsync(teacher);
                     }
                     else
                     {
                         role = "Student";
 
-                        var student = new Student
-                        {
-                            Id = newUser.Id,
-                            Type = "",
-                            Skill = ""
-                        };
-
-                        await studentWriteService.AddStudentAsync(student);
+                        user.Student = new Student();
                     }
+
+                    var newUser = await userWriteService.RegisterUserAsync(user);
 
                     var identity = SignIn(newUser.Email, role);
 

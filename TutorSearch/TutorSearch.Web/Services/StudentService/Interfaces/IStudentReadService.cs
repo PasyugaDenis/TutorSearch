@@ -7,7 +7,5 @@ namespace TutorSearch.Web.Services.StudentService
     public interface IStudentReadService
     {
         Task<Student> GetByIdAsync(int id);
-
-        Task<StudentViewModel> ViewStudentByIdAsync(int id);
     }
 }

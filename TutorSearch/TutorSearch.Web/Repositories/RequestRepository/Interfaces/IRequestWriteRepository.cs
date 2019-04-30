@@ -5,7 +5,7 @@ namespace TutorSearch.Web.Repositories.RequestRepository
 {
     public interface IRequestWriteRepository
     {
-        Task AddAsync(Request student);
+        Task<Request> AddAsync(Request student);
 
         Task UpdateAsync(Request student);
 

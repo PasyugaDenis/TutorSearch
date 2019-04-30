@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TutorSearch.Web.Models.Entities
 {
     public class Course
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public string Title { get; set; }
@@ -16,5 +17,10 @@ namespace TutorSearch.Web.Models.Entities
         public string Description { get; set; }
 
         public int TeacherId { get; set; }
+
+
+        public virtual Teacher Teacher { get; set; }
+
+        public virtual ICollection<Request> Requests { get; set; }
     }
 }

@@ -5,6 +5,8 @@ namespace TutorSearch.Web.Services.ContactService
 {
     public interface IContactWriteService
     {
-        Task<Contact> AddContactAsync();
+        Task<Contacts> AddContactAsync();
+
+        Task UpdateContactsAsync(Contacts model);
     }
 }

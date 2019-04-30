@@ -5,10 +5,10 @@ namespace TutorSearch.Web.Repositories.ContactRepository
 {
     public interface IContactWriteRepository
     {
-        Task AddAsync(Contact contact);
+        Task<Contacts> AddAsync(Contacts contact);
 
-        Task UpdateAsync(Contact contact);
+        Task UpdateAsync(Contacts contact);
 
-        Task RemoveAsync(Contact contact);
+        Task RemoveAsync(Contacts contact);
     }
 }

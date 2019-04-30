@@ -5,7 +5,7 @@ namespace TutorSearch.Web.Repositories.StudentRepository
 {
     public interface IStudentWriteRepository
     {
-        Task AddAsync(Student student);
+        Task<Student> AddAsync(Student student);
 
         Task UpdateAsync(Student student);
 
