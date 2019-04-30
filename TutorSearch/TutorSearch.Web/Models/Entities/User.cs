@@ -5,7 +5,7 @@ namespace TutorSearch.Web.Models.Entities
 {
     public class User
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public string Name { get; set; }
@@ -21,5 +21,10 @@ namespace TutorSearch.Web.Models.Entities
         public string Phone { get; set; }
 
         public bool IsTeacher { get; set; }
+
+
+        public virtual Teacher Teacher { get; set; }
+
+        public virtual Student Student { get; set; }
     }
 }

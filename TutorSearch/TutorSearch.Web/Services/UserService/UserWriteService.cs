@@ -1,9 +1,7 @@
-﻿using System;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using TutorSearch.Web.Models.Entities;
-using TutorSearch.Web.Models.Request;
 using TutorSearch.Web.Repositories.StudentRepository;
 using TutorSearch.Web.Repositories.TeacherRepository;
 using TutorSearch.Web.Repositories.UserRepository;
@@ -29,30 +27,16 @@ namespace TutorSearch.Web.Services.UserService
             this.teacherWriteRepository = teacherWriteRepository;
         }
 
-        public async Task EditUserAsync(User model)
+        public async Task UpdateUserAsync(User model)
         {
             await userWriteRepository.UpdateAsync(model);
         }
 
-        public async Task<User> RegisterUserAsync(UserRequest model)
+        public async Task<User> RegisterUserAsync(User model)
         {
-            var maxId = await userReadRepository.GetMaxIdAsync() ?? 0;
+            var result = await userWriteRepository.AddAsync(model);
 
-            var user = new User
-            {
-                Id = ++maxId,
-                Name = model.Name ?? "",
-                Surname = model.Surname ?? "",
-                Phone = model.Phone ?? "",
-                Birthday = model.Birthday ?? new DateTime(),
-                Email = model.Email,
-                Password = HashPassword(model.Password),
-                IsTeacher = model.IsTeacher
-            };
-
-            await userWriteRepository.AddAsync(user);
-
-            return user;
+            return result;
         }
 
         //Utils

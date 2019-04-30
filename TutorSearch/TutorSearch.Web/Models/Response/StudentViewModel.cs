@@ -1,21 +1,7 @@
-﻿using System;
-
-namespace TutorSearch.Web.Models.Response
+﻿namespace TutorSearch.Web.Models.Response
 {
-    public class StudentViewModel
+    public class StudentViewModel : UserViewModel
     {
-        public string Name { get; set; }
-
-        public string Surname { get; set; }
-
-        public DateTime Birthday { get; set; }
-
-        public string Email { get; set; }
-
-        public string Phone { get; set; }
-
-        public bool isTeacher { get; set; }
-
         public string Type { get; set; }
 
         public string Skill { get; set; }

@@ -17,18 +17,16 @@ namespace TutorSearch.Web.Services.ContactService
             this.contactReadRepository = contactReadRepository;
         }
 
-        public async Task<Contact> AddContactAsync()
+        public async Task<Contacts> AddContactAsync()
         {
-            var maxId = await contactReadRepository.GetMaxIdAsync() ?? 0;
+            var contact = new Contacts();
 
-            var contact = new Contact
-            {
-                Id = ++maxId
-            };
+            return await contactWriteRepository.AddAsync(contact);
+        }
 
-            await contactWriteRepository.AddAsync(contact);
-
-            return contact;
+        public async Task UpdateContactsAsync(Contacts model)
+        {
+            await contactWriteRepository.UpdateAsync(model);
         }
     }
 }

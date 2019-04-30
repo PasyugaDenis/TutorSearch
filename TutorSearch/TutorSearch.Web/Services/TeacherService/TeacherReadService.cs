@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using TutorSearch.Web.Models.Entities;
+using TutorSearch.Web.Models.Request;
 using TutorSearch.Web.Models.Response;
 using TutorSearch.Web.Repositories.TeacherRepository;
 using TutorSearch.Web.Repositories.UserRepository;
@@ -26,31 +29,78 @@ namespace TutorSearch.Web.Services.TeacherService
             return model;
         }
 
-        public async Task<TeacherViewModel> ViewTeacherByIdAsync(int id)
+        public async Task<List<Teacher>> GetListAsync(TeacherFilterRequest filter)
         {
-            var teacher = await teacherReadRepository.GetAsync(id);
-            var user = await userReadRepository.GetAsync(id);
+            //filter
+            var list = await teacherReadRepository.
+                SearchAsync(filter.SearchValues, filter.SearchFrom, filter.SearchTo, filter.IsPrivate);
 
-            if (teacher == null || user == null)
-                return null;
+            //sort
+            list = Sort(list, filter.SortField, filter.SortAscending);
 
-            TeacherViewModel teacherViewModel = new TeacherViewModel
+            return list;
+        }
+
+        private List<Teacher> Sort(List<Teacher> list, string sortField, bool sortAscending)
+        {
+            IOrderedEnumerable<Teacher> result;
+
+            switch (sortField.ToLower())
             {
-                Name = user.Name,
-                Surname = user.Surname,
-                Birthday = user.Birthday,
-                Email = user.Email,
-                Phone = user.Phone,
-                isTeacher = user.IsTeacher,
-                Education = teacher.Education,
-                Skill = teacher.Skill,
-                WorkExperience = teacher.WorkExperience,
-                IsPrivate = teacher.IsPrivate,
-                Description = teacher.Description,
-                City = teacher.City
-            };
+                case "name":
+                    result = sortAscending
+                        ? list.OrderBy(m => m.User.Name)
+                        : list.OrderByDescending(m => m.User.Name);
+                    break;
+                case "surname":
+                    result = sortAscending
+                        ? list.OrderBy(m => m.User.Surname)
+                        : list.OrderByDescending(m => m.User.Surname);
+                    break;
+                case "birthday":
+                    result = sortAscending
+                        ? list.OrderBy(m => m.User.Birthday)
+                        : list.OrderByDescending(m => m.User.Birthday);
+                    break;
+                case "email":
+                    result = sortAscending
+                        ? list.OrderBy(m => m.User.Email)
+                        : list.OrderByDescending(m => m.User.Email);
+                    break;
+                case "phone":
+                    result = sortAscending
+                        ? list.OrderBy(m => m.User.Phone)
+                        : list.OrderByDescending(m => m.User.Phone);
+                    break;
+                case "education":
+                    result = sortAscending
+                        ? list.OrderBy(m => m.Education)
+                        : list.OrderByDescending(m => m.Education);
+                    break;
+                case "skill":
+                    result = sortAscending
+                        ? list.OrderBy(m => m.Skill)
+                        : list.OrderByDescending(m => m.Skill);
+                    break;
+                case "city":
+                    result = sortAscending
+                        ? list.OrderBy(m => m.City)
+                        : list.OrderByDescending(m => m.City);
+                    break;
+                case "workexperience":
+                    result = sortAscending
+                        ? list.OrderBy(m => m.WorkExperience)
+                        : list.OrderByDescending(m => m.WorkExperience);
+                    break;
+                case "id":
+                default:
+                    result = sortAscending
+                        ? list.OrderBy(m => m.Id)
+                        : list.OrderByDescending(m => m.Id);
+                    break;
+            }
 
-            return teacherViewModel;
+            return result.ToList();
         }
     }
 }

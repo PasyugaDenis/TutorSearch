@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace TutorSearch.Web.Models.Entities
+﻿namespace TutorSearch.Web.Models.Request
 {
-    public class Contact
+    public class ContactsRequest
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         public string Skype { get; set; }

@@ -4,7 +4,7 @@ namespace TutorSearch.Web.Models.Entities
 {
     public class Message
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public string Text { get; set; }
@@ -16,5 +16,12 @@ namespace TutorSearch.Web.Models.Entities
         public int ToUserId { get; set; }
 
         public int ChatId { get; set; }
+
+
+        public virtual User FromUser { get; set; }
+
+        public virtual User ToUser { get; set; }
+
+        public virtual Chat Chat { get; set; }
     }
 }

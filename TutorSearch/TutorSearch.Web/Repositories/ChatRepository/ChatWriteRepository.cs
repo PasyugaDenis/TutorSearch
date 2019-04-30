@@ -13,10 +13,12 @@ namespace TutorSearch.Web.Repositories.ChatRepository
             this.dbContext = dbContext;
         }
 
-        public Task AddAsync(Chat chat)
+        public async Task<Chat> AddAsync(Chat chat)
         {
-            dbContext.Chats.Add(chat);
-            return dbContext.SaveChangesAsync();
+            var result = dbContext.Chats.Add(chat);
+            await dbContext.SaveChangesAsync();
+
+            return result;
         }
 
         public Task UpdateAsync(Chat chat)

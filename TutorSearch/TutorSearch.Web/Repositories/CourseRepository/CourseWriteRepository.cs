@@ -13,10 +13,12 @@ namespace TutorSearch.Web.Repositories.CourseRepository
             this.dbContext = dbContext;
         }
 
-        public Task AddAsync(Course course)
+        public async Task<Course> AddAsync(Course course)
         {
-            dbContext.Courses.Add(course);
-            return dbContext.SaveChangesAsync();
+            var result = dbContext.Courses.Add(course);
+            await dbContext.SaveChangesAsync();
+
+            return result;
         }
 
         public Task UpdateAsync(Course course)

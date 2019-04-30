@@ -22,7 +22,7 @@ namespace TutorSearch.Web.Repositories.ContactRepository
             return result;
         }
 
-        public Task<Contact> GetAsync(int id)
+        public Task<Contacts> GetAsync(int id)
         {
             var result = dbContext.Contacts.Where(m => m.Id == id)
                 .SingleOrDefaultAsync();
@@ -30,7 +30,7 @@ namespace TutorSearch.Web.Repositories.ContactRepository
             return result;
         }
 
-        public Task<List<Contact>> GetAllAsync()
+        public Task<List<Contacts>> GetAllAsync()
         {
             var result = dbContext.Contacts.ToListAsync();
             return result;

@@ -13,5 +13,7 @@
         public string Description { get; set; }
 
         public string City { get; set; }
+
+        public ContactsRequest Contacts { get; set; }
     }
 }

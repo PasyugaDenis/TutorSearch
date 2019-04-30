@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TutorSearch.Web.Models.Entities
 {
     public class Chat
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public string Title { get; set; }
@@ -12,5 +13,8 @@ namespace TutorSearch.Web.Models.Entities
         public string Description { get; set; }
 
         public bool IsBlocked { get; set; }
+
+
+        public virtual ICollection<Message> Messages { get; set; }
     }
 }

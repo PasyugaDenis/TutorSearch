@@ -46,6 +46,7 @@ namespace TutorSearch.Web.Repositories.CourseRepository
             if (searchValues.Length > 0)
             {
                 result = result.Where(m =>
+                    searchValues.Contains(m.Id.ToString()) ||
                     searchValues.Contains(m.Title) ||
                     searchValues.Contains(m.Specialty));
             }

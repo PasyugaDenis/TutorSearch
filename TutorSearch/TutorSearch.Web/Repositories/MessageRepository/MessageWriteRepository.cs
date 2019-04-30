@@ -13,10 +13,12 @@ namespace TutorSearch.Web.Repositories.MessageRepository
             this.dbContext = dbContext;
         }
 
-        public Task AddAsync(Message message)
+        public async Task<Message> AddAsync(Message message)
         {
-            dbContext.Messages.Add(message);
-            return dbContext.SaveChangesAsync();
+            var result = dbContext.Messages.Add(message);
+            await dbContext.SaveChangesAsync();
+
+            return result;
         }
 
         public Task UpdateAsync(Message message)
