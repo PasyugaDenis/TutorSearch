@@ -16,5 +16,10 @@
         {
             return new { success = false, errorNum, errorMessage };
         }
+
+        public static object Error(string errorMessage = "")
+        {
+            return new { success = false, errorMessage };
+        }
     }
 }

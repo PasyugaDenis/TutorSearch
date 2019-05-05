@@ -16,8 +16,8 @@ namespace TutorSearch.Web
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{action}",
-                defaults: new { controller = "User", action = "Index" }
+                routeTemplate: "api/{controller}/{action}/{id}",
+                defaults: new { controller = "User", action = "Index", id = RouteParameter.Optional }
             );
         }
     }
