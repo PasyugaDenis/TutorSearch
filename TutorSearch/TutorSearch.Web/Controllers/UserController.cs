@@ -1,7 +1,9 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -63,6 +65,16 @@ namespace TutorSearch.Web.Controllers
         [HttpPost]
         public async Task<object> Registration(UserRequest model)
         {
+            if (String.IsNullOrEmpty(model.Password.Trim()))
+            {
+                return JsonResults.Error(400, "Enter your Password.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return JsonResults.Error(400, ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage);
+            }
+
             var isUserContain = await userReadService.CheckUserByEmailAsync(model.Email);
 
             if (isUserContain)
@@ -77,6 +89,8 @@ namespace TutorSearch.Web.Controllers
 
                     var user = new User
                     {
+                        Name = model.Name,
+                        Surname = model.Surname,
                         Email = model.Email,
                         Password = userWriteService.HashPassword(model.Password),
                         IsTeacher = model.IsTeacher
@@ -110,6 +124,18 @@ namespace TutorSearch.Web.Controllers
 
                     return JsonResults.Success(new { token, userId, userRole });
                 }
+                catch (DbEntityValidationException ex)
+                {
+                    foreach (var eve in ex.EntityValidationErrors)
+                    {
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            return JsonResults.Error(400, ve.ErrorMessage);
+                        }
+                    }
+
+                    return JsonResults.Error(400, "Trable with validation data");
+                }
                 catch (Exception ex)
                 {
                     return JsonResults.Error(400, ex.Message);
@@ -120,6 +146,11 @@ namespace TutorSearch.Web.Controllers
         [HttpPost]
         public async Task<object> Authorization(AuthorizationRequest model)
         {
+            if (!ModelState.IsValid)
+            {
+                return JsonResults.Error(400, ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage);
+            }
+
             var user = await userReadService.SearchAuthorizationUserAsync(model.Email);
 
             if (user == null)
