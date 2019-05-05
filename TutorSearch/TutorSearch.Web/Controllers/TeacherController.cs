@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -136,6 +136,7 @@ namespace TutorSearch.Web.Controllers
             {
                 result.Add(new TeacherViewModel
                 {
+                    Id = item.User.Id,
                     Name = item.User.Name,
                     Surname = item.User.Surname,
                     Birthday = item.User.Birthday,
