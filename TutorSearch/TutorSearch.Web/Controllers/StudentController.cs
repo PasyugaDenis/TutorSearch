@@ -31,9 +31,9 @@ namespace TutorSearch.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<object> ViewProfile(int userId)
+        public async Task<object> ViewProfile(int id)
         {
-            var user = await userReadService.GetByIdAsync(userId);
+            var user = await userReadService.GetByIdAsync(id);
 
             if (user != null && !user.IsTeacher)
             {
