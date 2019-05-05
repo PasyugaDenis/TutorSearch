@@ -1,6 +1,7 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -63,6 +64,16 @@ namespace TutorSearch.Web.Controllers
         [HttpPost]
         public async Task<object> Registration(UserRequest model)
         {
+            if (String.IsNullOrEmpty(model.Password.Trim()))
+            {
+                return JsonResults.Error(415, "Enter your Password.");
+            }
+
+            if (model.Password.Length < 5)
+            {
+                return JsonResults.Error(415, "Password must not be shorter than 6 characters.");
+            }
+
             var isUserContain = await userReadService.CheckUserByEmailAsync(model.Email);
 
             if (isUserContain)
@@ -77,6 +88,8 @@ namespace TutorSearch.Web.Controllers
 
                     var user = new User
                     {
+                        Name = model.Name,
+                        Surname = model.Surname,
                         Email = model.Email,
                         Password = userWriteService.HashPassword(model.Password),
                         IsTeacher = model.IsTeacher
@@ -109,6 +122,18 @@ namespace TutorSearch.Web.Controllers
                     var userRole = newUser.IsTeacher ? 1 : 0;
 
                     return JsonResults.Success(new { token, userId, userRole });
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    foreach (var eve in ex.EntityValidationErrors)
+                    {
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            return JsonResults.Error(415, ve.ErrorMessage);
+                        }
+                    }
+
+                    return JsonResults.Error("Trable with validation data");
                 }
                 catch (Exception ex)
                 {
