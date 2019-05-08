@@ -46,7 +46,7 @@ namespace TutorSearch.Web.Controllers
         [HttpGet]
         public async Task<object> GetCourse(int id)
         {
-            var course = await courseReadService.GetCourse(id);
+            var course = await courseReadService.GetByIdAsync(id);
 
             if(course == null)
             {

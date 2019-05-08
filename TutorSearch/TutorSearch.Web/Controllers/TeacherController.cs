@@ -152,5 +152,43 @@ namespace TutorSearch.Web.Controllers
 
             return JsonResults.Success(result);
         }
+
+        [HttpGet]
+        public async Task<object> GetTeacher(int id)
+        {
+            var teacher = await teacherReadService.GetByIdAsync(id);
+
+            if(teacher == null)
+            {
+                return JsonResults.Error(404, "Teacher not found");
+            }
+
+            var contacts = new ContactsViewModel
+            {
+                Skype = teacher.Contacts.Skype,
+                Telegram = teacher.Contacts.Telegram,
+                Facebook = teacher.Contacts.Facebook,
+                Viber = teacher.Contacts.Viber,
+                WhatsUp = teacher.Contacts.WhatsUp
+            };
+
+            var result = new TeacherViewModel
+            {
+                Id = teacher.User.Id,
+                Name = teacher.User.Name,
+                Surname = teacher.User.Surname,
+                Birthday = teacher.User.Birthday,
+                Email = teacher.User.Email,
+                Phone = teacher.User.Phone,
+                Education = teacher.Education,
+                Skill = teacher.Skill,
+                City = teacher.City,
+                IsPrivate = teacher.IsPrivate,
+                WorkExperience = teacher.WorkExperience,
+                Contacts = contacts
+            };
+
+            return JsonResults.Success(result);
+        }
     }
 }
