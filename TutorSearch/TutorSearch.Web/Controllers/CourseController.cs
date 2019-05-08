@@ -42,5 +42,27 @@ namespace TutorSearch.Web.Controllers
 
             return JsonResults.Success(result);
         }
+        
+        [HttpGet]
+        public async Task<object> GetCourse(int id)
+        {
+            var course = await courseReadService.GetCourse(id);
+
+            if(course == null)
+            {
+                return JsonResults.Error(404, "Course not found");
+            }
+
+            var result = new CourseViewModel
+            {
+                    Id = course.Id,
+                    Title = course.Title,
+                    Specialty = course.Specialty,
+                    IsClosed = course.IsClosed,
+                    Description = course.Description
+            };
+
+            return JsonResults.Success(result);
+        }
     }
 }
