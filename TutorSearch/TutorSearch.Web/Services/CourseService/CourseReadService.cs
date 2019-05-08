@@ -17,6 +17,13 @@ namespace TutorSearch.Web.Services.CourseService
             this.courseReadRepository = courseReadRepository;
         }
 
+        public async Task<Course> GetCourse(int id)
+        {
+            var course = await courseReadRepository.GetAsync(id);
+
+            return course;
+        }
+
         public async Task<List<Course>> GetListAsync(CourseFilterRequest filter)
         {
             //filter

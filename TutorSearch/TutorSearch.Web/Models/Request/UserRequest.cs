@@ -15,6 +15,8 @@ namespace TutorSearch.Web.Models.Request
 
         public DateTime? Birthday { get; set; }
 
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^(\+)?(\d{10})(\d{1,4})?$", ErrorMessage = "Invalid Phone number")]
         public string Phone { get; set; }
 
         [Required(ErrorMessage = "The email address is required")]

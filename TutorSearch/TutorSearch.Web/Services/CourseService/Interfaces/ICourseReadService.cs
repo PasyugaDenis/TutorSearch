@@ -8,5 +8,6 @@ namespace TutorSearch.Web.Services.CourseService
     public interface ICourseReadService
     {
         Task<List<Course>> GetListAsync(CourseFilterRequest filter);
+        Task<Course> GetCourse(int id);
     }
 }
