@@ -202,19 +202,27 @@ namespace TutorSearch.Web.Controllers
 
         private string GetUserToken(ClaimsIdentity identity)
         {
-            var now = DateTime.UtcNow;
+            //Set issued at date
+            DateTime issuedAt = DateTime.UtcNow;
 
-            var jwt = new JwtSecurityToken(
-                issuer: AuthOptions.ISSUER,
-                audience: settings.SiteUrl,
-                notBefore: now,
-                claims: identity.Claims,
-                expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
-                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+            //set the time when it expires
+            DateTime expires = DateTime.UtcNow.AddDays(5);
 
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            const string sec = "STidGP1M7Zy8YrtNGhy7132GNn4";
+            var securityKey = new SymmetricSecurityKey(System.Text.Encoding.Default.GetBytes(sec));
+            var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
 
-            return encodedJwt;
+
+            //create the jwt
+            var token =
+                (JwtSecurityToken)
+                    tokenHandler.CreateJwtSecurityToken(issuer: "TutorSearch", audience: "TutorSearch",
+                        subject: identity, notBefore: issuedAt, expires: expires, signingCredentials: signingCredentials);
+
+            var tokenString = tokenHandler.WriteToken(token);
+
+            return tokenString;
         }
     }
 }

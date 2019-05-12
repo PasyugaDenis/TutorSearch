@@ -11,6 +11,7 @@ using TutorSearch.Web.Services.UserService;
 
 namespace TutorSearch.Web.Controllers
 {
+    [Authorize]
     public class TeacherController : ApiController
     {
         private IUserReadService userReadService;
@@ -107,16 +108,18 @@ namespace TutorSearch.Web.Controllers
                 await userWriteService.UpdateUserAsync(user);
 
                 //Edit contacts
-                var contacts = await contactsReadService.GetByIdAsync(user.Teacher.ContactsId);
 
-                contacts.Skype = model.Contacts.Skype;
-                contacts.Telegram = model.Contacts.Telegram;
-                contacts.Facebook = model.Contacts.Facebook;
-                contacts.Viber = model.Contacts.Viber;
-                contacts.WhatsUp = model.Contacts.WhatsUp;
-
-                await contactsWriteService.UpdateContactsAsync(contacts);
-
+                if (model.Contacts != null)
+                {
+                    var contacts = await contactsReadService.GetByIdAsync(user.Teacher.ContactsId);
+                    contacts.Skype = model.Contacts.Skype;
+                    contacts.Telegram = model.Contacts.Telegram;
+                    contacts.Facebook = model.Contacts.Facebook;
+                    contacts.Viber = model.Contacts.Viber;
+                    contacts.WhatsUp = model.Contacts.WhatsUp;
+                    
+                    await contactsWriteService.UpdateContactsAsync(contacts);
+                }
                 return JsonResults.Success();
             }
             catch (Exception ex)
@@ -128,7 +131,7 @@ namespace TutorSearch.Web.Controllers
         [HttpPost]
         public async Task<object> GetList(TeacherFilterRequest model)
         {
-            List<TeacherViewModel> result = new List<TeacherViewModel>();
+            var result = new List<TeacherViewModel>();
 
             var list = await teacherReadService.GetListAsync(model);
 
@@ -146,7 +149,8 @@ namespace TutorSearch.Web.Controllers
                     Skill = item.Skill,
                     City = item.City,
                     IsPrivate = item.IsPrivate,
-                    WorkExperience = item.WorkExperience
+                    WorkExperience = item.WorkExperience,
+                    IsTeacher = item.User.IsTeacher
                 });
             }
 
@@ -185,6 +189,7 @@ namespace TutorSearch.Web.Controllers
                 City = teacher.City,
                 IsPrivate = teacher.IsPrivate,
                 WorkExperience = teacher.WorkExperience,
+                IsTeacher = teacher.User.IsTeacher,
                 Contacts = contacts
             };
 
