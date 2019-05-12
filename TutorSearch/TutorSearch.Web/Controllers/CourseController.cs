@@ -8,6 +8,7 @@ using TutorSearch.Web.Services.CourseService;
 
 namespace TutorSearch.Web.Controllers
 {
+    [Authorize]
     public class CourseController : ApiController
     {
         private ICourseReadService courseReadService;
@@ -24,7 +25,7 @@ namespace TutorSearch.Web.Controllers
         [HttpPost]
         public async Task<object> GetList(CourseFilterRequest model)
         {
-            List<CourseViewModel> result = new List<CourseViewModel>();
+            var result = new List<CourseViewModel>();
 
             var list = await courseReadService.GetListAsync(model);
 
