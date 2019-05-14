@@ -9,6 +9,7 @@ using TutorSearch.Web.Services.UserService;
 
 namespace TutorSearch.Web.Controllers
 {
+    [Authorize]
     public class StudentController : ApiController
     {
         private IUserReadService userReadService;
