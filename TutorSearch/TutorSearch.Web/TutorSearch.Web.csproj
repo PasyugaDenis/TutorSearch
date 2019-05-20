@@ -206,6 +206,8 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Models\Request\CourseRequest.cs" />
+    <Compile Include="Models\Response\TeacherPageViewModel.cs" />
     <Compile Include="TokenValidationHandler.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
@@ -308,6 +310,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\betatutorsearch - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\betatutorsearch - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\TutorSearchBeta - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\TutorSearchBeta - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\TutorSearchBeta - Web Deploy1.pubxml" />
