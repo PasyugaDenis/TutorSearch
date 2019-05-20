@@ -176,20 +176,22 @@ namespace TutorSearch.Web.Controllers
                 WhatsUp = teacher.Contacts.WhatsUp
             };
 
-            var result = new TeacherViewModel
+            var countDaysOfYear = DateTime.IsLeapYear(DateTime.UtcNow.Year) ? 366 : 365;
+
+            var result = new TeacherPageViewModel
             {
                 Id = teacher.User.Id,
                 Name = teacher.User.Name,
                 Surname = teacher.User.Surname,
-                Birthday = teacher.User.Birthday,
+                Age =  ((DateTime.UtcNow - teacher.User.Birthday).Days / countDaysOfYear),
                 Email = teacher.User.Email,
-                Phone = teacher.User.Phone,
                 Education = teacher.Education,
                 Skill = teacher.Skill,
                 City = teacher.City,
-                IsPrivate = teacher.IsPrivate,
                 WorkExperience = teacher.WorkExperience,
-                IsTeacher = teacher.User.IsTeacher,
+                Description = teacher.Description,
+                IsPrivate = teacher.IsPrivate,
+                Phone = teacher.User.Phone,
                 Contacts = contacts
             };
 
