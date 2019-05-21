@@ -5,6 +5,7 @@ namespace TutorSearch.Web.Services.CourseService
 {
     public interface ICourseWriteService
     {
-        Task<Course> AddAsync(Course course);
+        Task<Course> AddCourseAsync(Course course);
+        Task UpdateCourseAsync(Course user);
     }
 }

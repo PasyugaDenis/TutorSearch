@@ -61,6 +61,7 @@ namespace TutorSearch.Web.Controllers
 
                 var result = new TeacherViewModel
                 {
+                    Id = user.Id,
                     Name = user.Name,
                     Surname = user.Surname,
                     Birthday = user.Birthday,

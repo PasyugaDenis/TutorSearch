@@ -8,6 +8,8 @@ namespace TutorSearch.Web.Models.Request
 {
     public class CourseRequest
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "Enter Title.")]
         public string Title { get; set; }
 

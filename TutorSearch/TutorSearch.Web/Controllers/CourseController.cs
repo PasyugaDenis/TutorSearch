@@ -38,6 +38,9 @@ namespace TutorSearch.Web.Controllers
                 {
                     Id = item.Id,
                     Title = item.Title,
+                    TutorName = item.Teacher.User.Name,
+                    TutorSurname = item.Teacher.User.Surname,
+                    City = item.Teacher.City,
                     Specialty = item.Specialty,
                     IsClosed = item.IsClosed,
                     Description = item.Description
@@ -91,21 +94,41 @@ namespace TutorSearch.Web.Controllers
                     Description = model.Description
                 };
 
-                var newCourse = await courseWriteService.AddAsync(course);
+                await courseWriteService.AddCourseAsync(course);
 
-                var result = new CourseViewModel
+                return JsonResults.Success();
+            }
+            catch (Exception ex)
+            {
+                return JsonResults.Error(400, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<object> EditCourse(CourseRequest model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return JsonResults.Error(400, ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage);
+            }
+
+            try
+            {
+                var course = await courseReadService.GetByIdAsync(model.Id);
+
+                if(course == null)
                 {
-                    Id = newCourse.Id,
-                    Title = newCourse.Title,
-                    TutorName = newCourse.Teacher.User.Name,
-                    TutorSurname = newCourse.Teacher.User.Surname,
-                    City = newCourse.Teacher.City,
-                    Specialty = newCourse.Specialty,
-                    IsClosed = newCourse.IsClosed,
-                    Description = newCourse.Description
-                };
+                    return JsonResults.Error(404, "Course not found");
+                }
 
-                return JsonResults.Success(result);
+                course.Title = model.Title;
+                course.Specialty = model.Specialty;
+                course.IsClosed = model.IsClosed;
+                course.Description = model.Description;
+
+                await courseWriteService.UpdateCourseAsync(course);
+
+                return JsonResults.Success();
             }
             catch (Exception ex)
             {

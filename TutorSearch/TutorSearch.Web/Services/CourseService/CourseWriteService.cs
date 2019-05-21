@@ -6,19 +6,22 @@ namespace TutorSearch.Web.Services.CourseService
 {
     public class CourseWriteService : ICourseWriteService
     {
-        private TutorSearchContext dbContext;
+        private ICourseWriteRepository courseWriteRepository;
 
-        public CourseWriteService(TutorSearchContext dbContext)
+        public CourseWriteService(ICourseWriteRepository courseWriteRepository)
         {
-            this.dbContext = dbContext;
+            this.courseWriteRepository = courseWriteRepository;
         }
 
-        public async Task<Course> AddAsync(Course course)
+        public async Task<Course> AddCourseAsync(Course course)
         {
-            var result = dbContext.Courses.Add(course);
-            await dbContext.SaveChangesAsync();
+            var result = await courseWriteRepository.AddAsync(course);
 
             return result;
+        }
+        public async Task UpdateCourseAsync(Course course)
+        {
+            await courseWriteRepository.UpdateAsync(course);
         }
     }
 }
