@@ -55,11 +55,6 @@ namespace TutorSearch.Web
                 .HasRequired(t => t.User)
                 .WithOptional(u => u.Teacher);
 
-            //contacts
-            modelBuilder.Entity<Contacts>()
-                .HasRequired(c => c.Teacher)
-                .WithRequiredPrincipal(t => t.Contacts);
-
             base.OnModelCreating(modelBuilder);
         }
     }

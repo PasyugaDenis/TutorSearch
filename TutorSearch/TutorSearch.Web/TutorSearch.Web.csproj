@@ -206,8 +206,10 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\RequestController.cs" />
     <Compile Include="Models\Request\CourseRequest.cs" />
-    <Compile Include="Models\Response\TeacherPageViewModel.cs" />
+    <Compile Include="Models\Request\RegistrationRequest.cs" />
+    <Compile Include="Models\Response\RequestViewModel.cs" />
     <Compile Include="TokenValidationHandler.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
@@ -236,7 +238,7 @@
     <Compile Include="Models\Request\TeacherRequest.cs" />
     <Compile Include="Models\Request\UserRequest.cs" />
     <Compile Include="Models\Response\ContactsViewModel.cs" />
-    <Compile Include="Models\Response\CourseViewModelcs.cs" />
+    <Compile Include="Models\Response\CourseViewModel.cs" />
     <Compile Include="Models\Response\StudentViewModel.cs" />
     <Compile Include="Models\Response\TeacherViewModel.cs" />
     <Compile Include="Models\Response\UserViewModel.cs" />

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace TutorSearch.Web.Models.Request
 {
@@ -10,15 +6,15 @@ namespace TutorSearch.Web.Models.Request
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Enter Title.")]
+        [Required(ErrorMessage = "Title is required")]
         public string Title { get; set; }
 
-        [Required(ErrorMessage = "Enter Specialty.")]
+        [Required(ErrorMessage = "Specialty is required")]
         public string Specialty { get; set; }
 
+        [Required(ErrorMessage = "IsClosed is required")]
         public bool IsClosed { get; set; }
 
-        [Required(ErrorMessage = "Enter Description.")]
         public string Description { get; set; }
 
         public int TeacherId { get; set; }

@@ -28,5 +28,11 @@ namespace TutorSearch.Web.Repositories.RequestRepository
             var result = dbContext.Requests.ToListAsync();
             return result;
         }
+
+        public Task<List<Request>> GetByCourseIdAsync(int courseId)
+        {
+            var result = dbContext.Requests.Where(m => m.CourseId == courseId).ToListAsync();
+            return result;
+        }
     }
 }

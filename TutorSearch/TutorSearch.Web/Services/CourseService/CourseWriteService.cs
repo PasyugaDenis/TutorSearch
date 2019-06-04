@@ -19,6 +19,7 @@ namespace TutorSearch.Web.Services.CourseService
 
             return result;
         }
+
         public async Task UpdateCourseAsync(Course course)
         {
             await courseWriteRepository.UpdateAsync(course);

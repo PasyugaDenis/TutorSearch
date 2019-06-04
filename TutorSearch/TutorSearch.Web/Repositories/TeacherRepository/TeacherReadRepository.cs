@@ -33,7 +33,7 @@ namespace TutorSearch.Web.Repositories.TeacherRepository
         {
             IQueryable<Teacher> result = dbContext.Teachers.AsQueryable();
 
-            if (searchValues.Length > 0)
+            if (searchValues?.Length > 0)
             {
                 result = result.Where(m =>
                     searchValues.Contains(m.Id.ToString()) ||

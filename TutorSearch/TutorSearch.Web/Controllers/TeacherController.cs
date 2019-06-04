@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using TutorSearch.Web.Helpers;
@@ -11,7 +12,7 @@ using TutorSearch.Web.Services.UserService;
 
 namespace TutorSearch.Web.Controllers
 {
-    [Authorize]
+    [RoutePrefix("api/Teacher")]
     public class TeacherController : ApiController
     {
         private IUserReadService userReadService;
@@ -41,7 +42,9 @@ namespace TutorSearch.Web.Controllers
             this.contactsWriteService = contactsWriteService;
         }
 
+        [Authorize]
         [HttpGet]
+        [Route("{id:int}")]
         public async Task<object> ViewProfile(int id)
         {
             var user = await userReadService.GetByIdAsync(id);
@@ -59,6 +62,8 @@ namespace TutorSearch.Web.Controllers
                     WhatsUp = userContacts.WhatsUp,
                 };
 
+                var countDaysOfYear = DateTime.IsLeapYear(DateTime.UtcNow.Year) ? 366 : 365;
+
                 var result = new TeacherViewModel
                 {
                     Id = user.Id,
@@ -68,6 +73,7 @@ namespace TutorSearch.Web.Controllers
                     Phone = user.Phone,
                     Email = user.Email,
                     IsTeacher = user.IsTeacher,
+                    Age = ((DateTime.UtcNow - user.Birthday).Days / countDaysOfYear),
                     Education = user.Teacher.Education,
                     Skill = user.Teacher.Skill,
                     City = user.Teacher.City,
@@ -85,9 +91,16 @@ namespace TutorSearch.Web.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost]
+        [Route("Edit")]
         public async Task<object> Edit(TeacherRequest model)
         {
+            if (!ModelState.IsValid)
+            {
+                return JsonResults.Error(400, ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage);
+            }
+
             try
             {
                 //Edit user
@@ -113,6 +126,7 @@ namespace TutorSearch.Web.Controllers
                 if (model.Contacts != null)
                 {
                     var contacts = await contactsReadService.GetByIdAsync(user.Teacher.ContactsId);
+
                     contacts.Skype = model.Contacts.Skype;
                     contacts.Telegram = model.Contacts.Telegram;
                     contacts.Facebook = model.Contacts.Facebook;
@@ -121,6 +135,7 @@ namespace TutorSearch.Web.Controllers
                     
                     await contactsWriteService.UpdateContactsAsync(contacts);
                 }
+
                 return JsonResults.Success();
             }
             catch (Exception ex)
@@ -129,14 +144,16 @@ namespace TutorSearch.Web.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpPost]
+        [Route("")]
         public async Task<object> GetList(TeacherFilterRequest model)
         {
             var result = new List<TeacherViewModel>();
 
             var list = await teacherReadService.GetListAsync(model);
 
-            foreach(var item in list)
+            foreach (var item in list)
             {
                 result.Add(new TeacherViewModel
                 {
@@ -154,47 +171,6 @@ namespace TutorSearch.Web.Controllers
                     IsTeacher = item.User.IsTeacher
                 });
             }
-
-            return JsonResults.Success(result);
-        }
-
-        [HttpGet]
-        public async Task<object> GetTeacher(int id)
-        {
-            var teacher = await teacherReadService.GetByIdAsync(id);
-
-            if(teacher == null)
-            {
-                return JsonResults.Error(404, "Teacher not found");
-            }
-
-            var contacts = new ContactsViewModel
-            {
-                Skype = teacher.Contacts.Skype,
-                Telegram = teacher.Contacts.Telegram,
-                Facebook = teacher.Contacts.Facebook,
-                Viber = teacher.Contacts.Viber,
-                WhatsUp = teacher.Contacts.WhatsUp
-            };
-
-            var countDaysOfYear = DateTime.IsLeapYear(DateTime.UtcNow.Year) ? 366 : 365;
-
-            var result = new TeacherPageViewModel
-            {
-                Id = teacher.User.Id,
-                Name = teacher.User.Name,
-                Surname = teacher.User.Surname,
-                Age =  ((DateTime.UtcNow - teacher.User.Birthday).Days / countDaysOfYear),
-                Email = teacher.User.Email,
-                Education = teacher.Education,
-                Skill = teacher.Skill,
-                City = teacher.City,
-                WorkExperience = teacher.WorkExperience,
-                Description = teacher.Description,
-                IsPrivate = teacher.IsPrivate,
-                Phone = teacher.User.Phone,
-                Contacts = contacts
-            };
 
             return JsonResults.Success(result);
         }

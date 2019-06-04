@@ -24,9 +24,7 @@ namespace TutorSearch.Web.Models.Entities
                      
 
         public virtual User User { get; set; }
-
-        public virtual Contacts Contacts { get; set; }
-
+        
         public virtual ICollection<Course> Courses { get; set; }
     }
 }

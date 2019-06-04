@@ -11,7 +11,7 @@ using TutorSearch.Web.Services.CourseService;
 
 namespace TutorSearch.Web.Controllers
 {
-    [Authorize]
+    [RoutePrefix("api/Course")]
     public class CourseController : ApiController
     {
         private ICourseReadService courseReadService;
@@ -25,7 +25,9 @@ namespace TutorSearch.Web.Controllers
             this.courseWriteService = courseWriteService;
         }
 
+        [AllowAnonymous]
         [HttpPost]
+        [Route("")]
         public async Task<object> GetList(CourseFilterRequest model)
         {
             var result = new List<CourseViewModel>();
@@ -49,13 +51,15 @@ namespace TutorSearch.Web.Controllers
 
             return JsonResults.Success(result);
         }
-        
+
+        [AllowAnonymous]
         [HttpGet]
+        [Route("{id:int}")]
         public async Task<object> GetCourse(int id)
         {
             var course = await courseReadService.GetByIdAsync(id);
 
-            if(course == null)
+            if (course == null)
             {
                 return JsonResults.Error(404, "Course not found");
             }
@@ -75,12 +79,19 @@ namespace TutorSearch.Web.Controllers
             return JsonResults.Success(result);
         }
 
+        [Authorize]
         [HttpPost]
+        [Route("Add")]
         public async Task<object> AddCourse(CourseRequest model)
         {
             if (!ModelState.IsValid)
             {
                 return JsonResults.Error(400, ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage);
+            }
+
+            if (model.TeacherId == 0)
+            {
+                return JsonResults.Error(400, "TeacherId is required");
             }
 
             try
@@ -104,7 +115,9 @@ namespace TutorSearch.Web.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost]
+        [Route("Edit")]
         public async Task<object> EditCourse(CourseRequest model)
         {
             if (!ModelState.IsValid)
@@ -116,7 +129,7 @@ namespace TutorSearch.Web.Controllers
             {
                 var course = await courseReadService.GetByIdAsync(model.Id);
 
-                if(course == null)
+                if (course == null)
                 {
                     return JsonResults.Error(404, "Course not found");
                 }
@@ -134,6 +147,29 @@ namespace TutorSearch.Web.Controllers
             {
                 return JsonResults.Error(400, ex.Message);
             }
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("Requests/{courseId:int}")]
+        public async Task<object> GetRequests(int courseId)
+        {
+            var result = new List<RequestViewModel>();
+
+            var requests = await courseReadService.GetCourseRequests(courseId);
+
+            requests.ForEach(m => result.Add(new RequestViewModel
+            {
+                Id = m.Id,
+                IsConfirmed = m.IsConfirmed,
+                IsClosed = m.IsClosed,
+                DateOfRegistration = m.DateOfRegistration,
+                Rating = m.Rating,
+                Comment = m.Comment,
+                StudentFullName = $"{m.Student.User.Name} {m.Student.User.Surname}"
+            }));
+
+            return JsonResults.Success(result);
         }
     }
 }

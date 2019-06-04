@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using TutorSearch.Web.Helpers;
@@ -9,7 +10,8 @@ using TutorSearch.Web.Services.UserService;
 
 namespace TutorSearch.Web.Controllers
 {
-    [Authorize]
+    [AllowAnonymous] //REMOVE
+    [RoutePrefix("api/Student")]
     public class StudentController : ApiController
     {
         private IUserReadService userReadService;
@@ -31,7 +33,9 @@ namespace TutorSearch.Web.Controllers
             this.studentWriteService = studentWriteService;
         }
 
+        //[Authorize]
         [HttpGet]
+        [Route("{id:int}")]
         public async Task<object> ViewProfile(int id)
         {
             var user = await userReadService.GetByIdAsync(id);
@@ -60,9 +64,16 @@ namespace TutorSearch.Web.Controllers
             }
         }
 
+        //[Authorize]
         [HttpPost]
+        [Route("Edit")]
         public async Task<object> Edit(StudentRequest model)
         {
+            if (!ModelState.IsValid)
+            {
+                return JsonResults.Error(400, ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage);
+            }
+
             try
             {
                 //Edit user
