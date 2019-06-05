@@ -7,5 +7,6 @@ namespace TutorSearch.Web.Services.CourseService
     {
         Task<Course> AddCourseAsync(Course course);
         Task UpdateCourseAsync(Course user);
+        Task DeleteCourseAsync(Course course);
     }
 }

@@ -171,5 +171,29 @@ namespace TutorSearch.Web.Controllers
 
             return JsonResults.Success(result);
         }
+
+        [Authorize]
+        [HttpDelete]
+        [Route("{id:int}/Delete")]
+        public async Task<object> DeleteCourse(int id)
+        {
+            try
+            {
+                var course = await courseReadService.GetByIdAsync(id);
+
+                if (course == null)
+                {
+                    return JsonResults.Error(404, "Course not found");
+                }
+
+                await courseWriteService.DeleteCourseAsync(course);
+
+                return JsonResults.Success();
+            }
+            catch (Exception ex)
+            {
+                return JsonResults.Error(400, ex.Message);
+            }
+        }
     }
 }
