@@ -24,5 +24,10 @@ namespace TutorSearch.Web.Services.CourseService
         {
             await courseWriteRepository.UpdateAsync(course);
         }
+
+        public async Task DeleteCourseAsync(Course course)
+        {
+            await courseWriteRepository.RemoveAsync(course);
+        }
     }
 }
