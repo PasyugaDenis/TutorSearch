@@ -16,8 +16,5 @@ namespace TutorSearch.Web.Models.Entities
         public string Viber { get; set; }
 
         public string WhatsUp { get; set; }
-
-
-        public virtual Teacher Teacher { get; set; }
     }
 }

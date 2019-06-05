@@ -43,7 +43,7 @@ namespace TutorSearch.Web.Repositories.CourseRepository
                 result = result.Where(m => m.IsClosed == isClosed.Value);
             }
 
-            if (searchValues.Length > 0)
+            if (searchValues?.Length > 0)
             {
                 result = result.Where(m =>
                     searchValues.Contains(m.Id.ToString()) ||

@@ -2,8 +2,6 @@
 {
     public class ContactsRequest
     {
-        public int Id { get; set; }
-
         public string Skype { get; set; }
 
         public string Telegram { get; set; }

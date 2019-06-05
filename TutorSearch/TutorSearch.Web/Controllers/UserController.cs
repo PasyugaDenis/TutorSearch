@@ -17,6 +17,7 @@ using TutorSearch.Web.Services.UserService;
 
 namespace TutorSearch.Web.Controllers
 {
+    [RoutePrefix("api/User")]
     public class UserController : ApiController
     {
         private TutorSearchConfiguration settings;
@@ -56,20 +57,19 @@ namespace TutorSearch.Web.Controllers
             this.contactWriteService = contactWriteService;
         }
 
+        [AllowAnonymous]
         [HttpGet]
+        [Route("")]
         public string Index()
         {
             return "Tutor Search";
         }
 
+        [AllowAnonymous]
         [HttpPost]
-        public async Task<object> Registration(UserRequest model)
+        [Route("Registration")]
+        public async Task<object> Registration(RegistrationRequest model)
         {
-            if (String.IsNullOrEmpty(model.Password.Trim()))
-            {
-                return JsonResults.Error(400, "Enter your Password.");
-            }
-
             if (!ModelState.IsValid)
             {
                 return JsonResults.Error(400, ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage);
@@ -89,8 +89,8 @@ namespace TutorSearch.Web.Controllers
 
                     var user = new User
                     {
-                        Name = model.Name,
-                        Surname = model.Surname,
+                        Name = string.Empty,
+                        Surname = string.Empty,
                         Email = model.Email,
                         Password = userWriteService.HashPassword(model.Password),
                         IsTeacher = model.IsTeacher
@@ -143,7 +143,9 @@ namespace TutorSearch.Web.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpPost]
+        [Route("Authorization")]
         public async Task<object> Authorization(AuthorizationRequest model)
         {
             if (!ModelState.IsValid)

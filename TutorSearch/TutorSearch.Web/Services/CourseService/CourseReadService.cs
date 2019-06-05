@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using TutorSearch.Web.Models.Entities;
 using TutorSearch.Web.Models.Request;
 using TutorSearch.Web.Repositories.CourseRepository;
+using TutorSearch.Web.Repositories.RequestRepository;
 
 namespace TutorSearch.Web.Services.CourseService
 {
@@ -11,10 +12,14 @@ namespace TutorSearch.Web.Services.CourseService
     {
         private ICourseReadRepository courseReadRepository;
 
+        private IRequestReadRepository requestReadRepository;
+
         public CourseReadService(
-            ICourseReadRepository courseReadRepository)
+            ICourseReadRepository courseReadRepository,
+            IRequestReadRepository requestReadRepository)
         {
             this.courseReadRepository = courseReadRepository;
+            this.requestReadRepository = requestReadRepository;
         }
 
         public async Task<Course> GetByIdAsync(int id)
@@ -36,11 +41,18 @@ namespace TutorSearch.Web.Services.CourseService
             return courses;
         }
 
+        public async Task<List<Request>> GetCourseRequests(int courseId)
+        {
+            var result = await requestReadRepository.GetByCourseIdAsync(courseId);
+
+            return result;
+        }
+
         private List<Course> Sort(List<Course> courses, string sortField, bool sortAscending)
         {
             IOrderedEnumerable<Course> result;
 
-            switch (sortField.ToLower())
+            switch (sortField?.ToLower())
             {
                 case "title":
                     result = sortAscending

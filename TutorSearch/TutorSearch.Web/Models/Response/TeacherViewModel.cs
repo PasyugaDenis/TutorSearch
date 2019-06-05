@@ -4,6 +4,8 @@
     {
         public int Id { get; set; }
 
+        public int Age { get; set; }
+
         public string Education { get; set; }
 
         public string Skill { get; set; }

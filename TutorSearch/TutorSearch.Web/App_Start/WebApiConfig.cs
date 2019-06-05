@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
+﻿using System.Web.Http;
 
 namespace TutorSearch.Web
 {
@@ -18,8 +15,8 @@ namespace TutorSearch.Web
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{action}/{id}",
-                defaults: new { controller = "User", action = "Index", id = RouteParameter.Optional }
+                routeTemplate: "api/{controller}/{action}",
+                defaults: new { controller = "User", action = "Index" }
             );
         }
     }

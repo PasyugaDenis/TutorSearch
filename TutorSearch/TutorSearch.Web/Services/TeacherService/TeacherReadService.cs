@@ -45,7 +45,7 @@ namespace TutorSearch.Web.Services.TeacherService
         {
             IOrderedEnumerable<Teacher> result;
 
-            switch (sortField.ToLower())
+            switch (sortField?.ToLower())
             {
                 case "name":
                     result = sortAscending
