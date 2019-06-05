@@ -8,6 +8,7 @@ using TutorSearch.Web.Models.Entities;
 using TutorSearch.Web.Models.Request;
 using TutorSearch.Web.Models.Response;
 using TutorSearch.Web.Services.CourseService;
+using TutorSearch.Web.Services.RequestService;
 
 namespace TutorSearch.Web.Controllers
 {
@@ -16,13 +17,19 @@ namespace TutorSearch.Web.Controllers
     {
         private ICourseReadService courseReadService;
         private ICourseWriteService courseWriteService;
+        private IRequestReadService requestReadService;
+        private IRequestWriteService requestWriteService;
 
         public CourseController(
             ICourseReadService courseReadService,
-            ICourseWriteService courseWriteService)
+            ICourseWriteService courseWriteService,
+            IRequestReadService requestReadService,
+            IRequestWriteService requestWriteService)
         {
             this.courseReadService = courseReadService;
             this.courseWriteService = courseWriteService;
+            this.requestReadService = requestReadService;
+            this.requestWriteService = requestWriteService;
         }
 
         [AllowAnonymous]
@@ -170,6 +177,35 @@ namespace TutorSearch.Web.Controllers
             }));
 
             return JsonResults.Success(result);
+        }
+
+        [Authorize]
+        [HttpDelete]
+        [Route("{id:int}/Delete")]
+        public async Task<object> DeleteCourse(int id)
+        {
+            try
+            {
+                var course = await courseReadService.GetByIdAsync(id);
+                if (course == null)
+                {
+                    return JsonResults.Error(404, "Course not found");
+                }
+
+                var requests = await requestReadService.GetByCourseIdAsync(id);
+                foreach (var request in requests)
+                {
+                    await requestWriteService.DeleteRequestAsync(request);
+                }
+
+                await courseWriteService.DeleteCourseAsync(course);
+
+                return JsonResults.Success();
+            }
+            catch (Exception ex)
+            {
+                return JsonResults.Error(400, ex.Message);
+            }
         }
     }
 }
