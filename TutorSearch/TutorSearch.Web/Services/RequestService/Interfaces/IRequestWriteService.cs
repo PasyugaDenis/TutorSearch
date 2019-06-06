@@ -12,6 +12,7 @@ namespace TutorSearch.Web.Services.RequestService
         Task RejectAsync(int id);
 
         Task UpdateRequestAsync(Request model);
-        Task DeleteRequestAsync(Request request);
+
+        Task RemoveRequestAsync(Request model);
     }
 }

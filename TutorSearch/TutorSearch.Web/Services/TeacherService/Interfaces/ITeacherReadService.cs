@@ -7,7 +7,7 @@ namespace TutorSearch.Web.Services.TeacherService
 {
     public interface ITeacherReadService
     {
-        Task<Teacher> GetByIdAsync(int id);
+        Task<Teacher> GetTeacherAsync(int id);
 
         Task<List<Teacher>> GetListAsync(TeacherFilterRequest filter);
     }

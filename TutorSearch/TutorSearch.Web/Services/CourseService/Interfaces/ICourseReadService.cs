@@ -9,8 +9,8 @@ namespace TutorSearch.Web.Services.CourseService
     {
         Task<List<Course>> GetListAsync(CourseFilterRequest filter);
 
-        Task<Course> GetByIdAsync(int id);
+        Task<Course> GetCourseAsync(int id);
 
-        Task<List<Request>> GetCourseRequests(int courseId);
+        Task<List<Request>> GetCourseRequestsAsync(int courseId);
     }
 }

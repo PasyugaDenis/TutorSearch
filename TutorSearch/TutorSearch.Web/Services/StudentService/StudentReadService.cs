@@ -19,7 +19,7 @@ namespace TutorSearch.Web.Services.StudentService
             this.userReadRepository = userReadRepository;
         }
 
-        public async Task<Student> GetByIdAsync(int id)
+        public async Task<Student> GetStudentAsync(int id)
         {
             var model = await studentReadRepository.GetAsync(id);
 

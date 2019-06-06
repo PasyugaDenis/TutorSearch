@@ -7,6 +7,6 @@ namespace TutorSearch.Web.Services.StudentService
     {
         Task AddStudentAsync(Student model);
 
-        Task EditStudentAsync(Student model);
+        Task UpdateStudentAsync(Student model);
     }
 }

@@ -42,16 +42,16 @@ namespace TutorSearch.Web.Controllers
             this.contactsWriteService = contactsWriteService;
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpGet]
         [Route("{id:int}")]
         public async Task<object> ViewProfile(int id)
         {
-            var user = await userReadService.GetByIdAsync(id);
+            var user = await userReadService.GetUserAsync(id);
 
             if (user != null && user.IsTeacher)
             {
-                var userContacts = await contactsReadService.GetByIdAsync(user.Teacher.ContactsId);
+                var userContacts = await contactsReadService.GetContactAsync(user.Teacher.ContactsId);
 
                 var contacts = new ContactsViewModel
                 {
@@ -104,7 +104,14 @@ namespace TutorSearch.Web.Controllers
             try
             {
                 //Edit user
-                var user = await userReadService.GetByIdAsync(model.Id);
+                var user = await userReadService.GetUserAsync(model.Id);
+
+                var isCorrectEmail = await CheckEmailAsync(user.Email, model.Email);
+
+                if (!isCorrectEmail)
+                {
+                    return JsonResults.Error(400, "Incorrect email");
+                }
 
                 user.Name = model.Name;
                 user.Surname = model.Surname;
@@ -125,7 +132,7 @@ namespace TutorSearch.Web.Controllers
 
                 if (model.Contacts != null)
                 {
-                    var contacts = await contactsReadService.GetByIdAsync(user.Teacher.ContactsId);
+                    var contacts = await contactsReadService.GetContactAsync(user.Teacher.ContactsId);
 
                     contacts.Skype = model.Contacts.Skype;
                     contacts.Telegram = model.Contacts.Telegram;
@@ -133,7 +140,7 @@ namespace TutorSearch.Web.Controllers
                     contacts.Viber = model.Contacts.Viber;
                     contacts.WhatsUp = model.Contacts.WhatsUp;
                     
-                    await contactsWriteService.UpdateContactsAsync(contacts);
+                    await contactsWriteService.UpdateContactAsync(contacts);
                 }
 
                 return JsonResults.Success();
@@ -153,6 +160,8 @@ namespace TutorSearch.Web.Controllers
 
             var list = await teacherReadService.GetListAsync(model);
 
+            var countDaysOfYear = DateTime.IsLeapYear(DateTime.UtcNow.Year) ? 366 : 365;
+
             foreach (var item in list)
             {
                 result.Add(new TeacherViewModel
@@ -168,11 +177,29 @@ namespace TutorSearch.Web.Controllers
                     City = item.City,
                     IsPrivate = item.IsPrivate,
                     WorkExperience = item.WorkExperience,
-                    IsTeacher = item.User.IsTeacher
+                    IsTeacher = item.User.IsTeacher,
+                    Description = item.Description,
+                    Age = ((DateTime.UtcNow - item.User.Birthday).Days / countDaysOfYear)
                 });
             }
 
             return JsonResults.Success(result);
+        }
+
+        //Utills
+        private async Task<bool> CheckEmailAsync(string oldEmail, string newEmail)
+        {
+            if (oldEmail != newEmail)
+            {
+                var isUserRegistred = await userReadService.CheckUserByEmailAsync(newEmail);
+
+                if (isUserRegistred)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

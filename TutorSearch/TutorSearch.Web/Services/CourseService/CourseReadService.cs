@@ -22,7 +22,7 @@ namespace TutorSearch.Web.Services.CourseService
             this.requestReadRepository = requestReadRepository;
         }
 
-        public async Task<Course> GetByIdAsync(int id)
+        public async Task<Course> GetCourseAsync(int id)
         {
             var course = await courseReadRepository.GetAsync(id);
 
@@ -41,7 +41,7 @@ namespace TutorSearch.Web.Services.CourseService
             return courses;
         }
 
-        public async Task<List<Request>> GetCourseRequests(int courseId)
+        public async Task<List<Request>> GetCourseRequestsAsync(int courseId)
         {
             var result = await requestReadRepository.GetByCourseIdAsync(courseId);
 

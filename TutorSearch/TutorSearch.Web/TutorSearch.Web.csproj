@@ -206,9 +206,15 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\RequestController.cs" />
+    <Compile Include="Models\Request\ChatRequest.cs" />
     <Compile Include="Models\Request\CourseRequest.cs" />
+    <Compile Include="Models\Request\MessageRequest.cs" />
     <Compile Include="Models\Request\RegistrationRequest.cs" />
+    <Compile Include="Models\Request\RequestRequest.cs" />
+    <Compile Include="Models\Response\ChatViewModel.cs" />
+    <Compile Include="Models\Response\MessageViewModel.cs" />
     <Compile Include="Models\Response\RequestViewModel.cs" />
     <Compile Include="TokenValidationHandler.cs" />
     <Compile Include="Controllers\CourseController.cs" />
@@ -287,10 +293,6 @@
     <Compile Include="Services\CourseService\CourseWriteService.cs" />
     <Compile Include="Services\CourseService\Interfaces\ICourseReadService.cs" />
     <Compile Include="Services\CourseService\Interfaces\ICourseWriteService.cs" />
-    <Compile Include="Services\MessageService\Interfaces\IMessageReadService.cs" />
-    <Compile Include="Services\MessageService\Interfaces\IMessageWriteService.cs" />
-    <Compile Include="Services\MessageService\MessageReadService.cs" />
-    <Compile Include="Services\MessageService\MessageWriteService.cs" />
     <Compile Include="Services\RequestService\Interfaces\IRequestReadService.cs" />
     <Compile Include="Services\RequestService\Interfaces\IRequestWriteService.cs" />
     <Compile Include="Services\RequestService\RequestReadService.cs" />

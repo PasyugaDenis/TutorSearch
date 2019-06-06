@@ -10,6 +10,8 @@ using System.Web.Http;
 using TutorSearch.Web.Helpers;
 using TutorSearch.Web.Models.Entities;
 using TutorSearch.Web.Models.Request;
+using TutorSearch.Web.Models.Response;
+using TutorSearch.Web.Services.ChatService;
 using TutorSearch.Web.Services.ContactService;
 using TutorSearch.Web.Services.StudentService;
 using TutorSearch.Web.Services.TeacherService;
@@ -33,6 +35,8 @@ namespace TutorSearch.Web.Controllers
 
         private IContactWriteService contactWriteService;
 
+        private IChatReadService chatReadService;
+
         public UserController(
             TutorSearchConfiguration settings,
             IUserReadService userReadService,
@@ -41,7 +45,8 @@ namespace TutorSearch.Web.Controllers
             IStudentWriteService studentWriteService,
             ITeacherReadService teacherReadService,
             ITeacherWriteService teacherWriteService,
-            IContactWriteService contactWriteService)
+            IContactWriteService contactWriteService,
+            IChatReadService chatReadService)
         {
             this.settings = settings;
 
@@ -55,6 +60,8 @@ namespace TutorSearch.Web.Controllers
             this.teacherWriteService = teacherWriteService;
 
             this.contactWriteService = contactWriteService;
+
+            this.chatReadService = chatReadService;
         }
 
         [AllowAnonymous]
@@ -185,6 +192,26 @@ namespace TutorSearch.Web.Controllers
                     return JsonResults.Error(400, ex.Message);
                 }
             }
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("{id:int}/Chats")]
+        public async Task<object> GetChats(int id)
+        {
+            var result = new List<ChatViewModel>();
+
+            var chats = await chatReadService.GetUserChatsAsync(id);
+
+            chats.ForEach(m => result.Add(new ChatViewModel
+            {
+                Id = m.Id,
+                Title = m.Title,
+                Description = m.Description,
+                IsBlocked = m.IsBlocked
+            }));
+
+            return JsonResults.Success(result);
         }
 
         //Utills

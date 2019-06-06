@@ -19,7 +19,6 @@ using TutorSearch.Web.Repositories.UserRepository;
 using TutorSearch.Web.Services.ChatService;
 using TutorSearch.Web.Services.ContactService;
 using TutorSearch.Web.Services.CourseService;
-using TutorSearch.Web.Services.MessageService;
 using TutorSearch.Web.Services.RequestService;
 using TutorSearch.Web.Services.StudentService;
 using TutorSearch.Web.Services.TeacherService;
@@ -91,10 +90,7 @@ namespace TutorSearch.Web
 
             kernel.Bind<ICourseReadService>().To<CourseReadService>();
             kernel.Bind<ICourseWriteService>().To<CourseWriteService>();
-
-            kernel.Bind<IMessageReadService>().To<MessageReadService>();
-            kernel.Bind<IMessageWriteService>().To<MessageWriteService>();
-
+            
             kernel.Bind<IRequestReadService>().To<RequestReadService>();
             kernel.Bind<IRequestWriteService>().To<RequestWriteService>();
 

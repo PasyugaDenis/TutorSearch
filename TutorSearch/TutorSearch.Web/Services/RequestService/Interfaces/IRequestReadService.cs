@@ -6,7 +6,7 @@ namespace TutorSearch.Web.Services.RequestService
 {
     public interface IRequestReadService
     {
-        Task<Request> GetByIdAsync(int id);
-        Task<List<Request>> GetByCourseIdAsync(int courseId);
+        Task<Request> GetRequestAsync(int id);
+        Task<List<Request>> GetRequestsByCourseIdAsync(int courseId);
     }
 }

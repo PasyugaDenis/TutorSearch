@@ -5,6 +5,6 @@ namespace TutorSearch.Web.Services.ContactService
 {
     public interface IContactReadService
     {
-        Task<Contacts> GetByIdAsync(int id);
+        Task<Contacts> GetContactAsync(int id);
     }
 }

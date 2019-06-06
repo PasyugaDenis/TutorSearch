@@ -24,7 +24,7 @@ namespace TutorSearch.Web.Services.ContactService
             return await contactWriteRepository.AddAsync(contact);
         }
 
-        public async Task UpdateContactsAsync(Contacts model)
+        public async Task UpdateContactAsync(Contacts model)
         {
             await contactWriteRepository.UpdateAsync(model);
         }

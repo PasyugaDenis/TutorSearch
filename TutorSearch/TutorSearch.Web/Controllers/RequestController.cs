@@ -85,5 +85,37 @@ namespace TutorSearch.Web.Controllers
             }
         }
 
+        [Authorize]
+        [HttpPost]
+        [Route("Close")]
+        public async Task<object> Close(RequestRequest model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return JsonResults.Error(400, ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage);
+            }
+
+            try
+            {
+                var request = await requestReadService.GetRequestAsync(model.Id);
+
+                if (request == null)
+                {
+                    return JsonResults.Error(400, "Request not found");
+                }
+
+                request.Rating = model.Rating;
+                request.Comment = model.Comment;
+                request.IsClosed = true;
+
+                await requestWriteService.UpdateRequestAsync(request);
+
+                return JsonResults.Success();
+            }
+            catch (Exception ex)
+            {
+                return JsonResults.Error(400, ex.Message);
+            }
+        }
     }
 }

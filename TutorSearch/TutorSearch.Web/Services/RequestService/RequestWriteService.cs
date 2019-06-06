@@ -47,7 +47,7 @@ namespace TutorSearch.Web.Services.RequestService
             await requestWriteRepository.UpdateAsync(model);
         }
 
-        public async Task DeleteRequestAsync(Request model)
+        public async Task RemoveRequestAsync(Request model)
         {
             await requestWriteRepository.RemoveAsync(model);
         }

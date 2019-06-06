@@ -10,7 +10,6 @@ using TutorSearch.Web.Services.UserService;
 
 namespace TutorSearch.Web.Controllers
 {
-    [AllowAnonymous] //REMOVE
     [RoutePrefix("api/Student")]
     public class StudentController : ApiController
     {
@@ -33,12 +32,12 @@ namespace TutorSearch.Web.Controllers
             this.studentWriteService = studentWriteService;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         [Route("{id:int}")]
         public async Task<object> ViewProfile(int id)
         {
-            var user = await userReadService.GetByIdAsync(id);
+            var user = await userReadService.GetUserAsync(id);
 
             if (user != null && !user.IsTeacher)
             {
@@ -64,7 +63,7 @@ namespace TutorSearch.Web.Controllers
             }
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         [Route("Edit")]
         public async Task<object> Edit(StudentRequest model)
@@ -77,7 +76,14 @@ namespace TutorSearch.Web.Controllers
             try
             {
                 //Edit user
-                var user = await userReadService.GetByIdAsync(model.Id);
+                var user = await userReadService.GetUserAsync(model.Id);
+
+                var isCorrectEmail = await CheckEmailAsync(user.Email, model.Email);
+
+                if (!isCorrectEmail)
+                {
+                    return JsonResults.Error(400, "Incorrect email");
+                }
 
                 user.Name = model.Name;
                 user.Surname = model.Surname;
@@ -98,6 +104,21 @@ namespace TutorSearch.Web.Controllers
             {
                 return JsonResults.Error(400, ex.Message);
             }
+        }
+
+        private async Task<bool> CheckEmailAsync(string oldEmail, string newEmail)
+        {
+            if (oldEmail != newEmail)
+            {
+                var isUserRegistred = await userReadService.CheckUserByEmailAsync(newEmail);
+
+                if (isUserRegistred)
+                {
+                    return false;
+                }
+            }
+        
+            return true;
         }
     }
 }
