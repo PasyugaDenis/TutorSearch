@@ -16,7 +16,7 @@ namespace TutorSearch.Web.Services.UserService
             this.userReadRepository = userReadRepository;
         }
 
-        public async Task<User> GetByIdAsync(int id)
+        public async Task<User> GetUserAsync(int id)
         {
             var user = await userReadRepository.GetAsync(id);
 

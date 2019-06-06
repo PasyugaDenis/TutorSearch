@@ -5,7 +5,7 @@ namespace TutorSearch.Web.Services.UserService
 {
     public interface IUserReadService
     {
-        Task<User> GetByIdAsync(int id);
+        Task<User> GetUserAsync(int id);
 
         Task<bool> CheckUserByEmailAsync(string email);
 

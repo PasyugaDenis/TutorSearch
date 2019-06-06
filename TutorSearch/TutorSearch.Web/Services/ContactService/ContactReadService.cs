@@ -14,7 +14,7 @@ namespace TutorSearch.Web.Services.ContactService
             this.contactReadRepository = contactReadRepository;
         }
 
-        public async Task<Contacts> GetByIdAsync(int id)
+        public async Task<Contacts> GetContactAsync(int id)
         {
             var result = await contactReadRepository.GetAsync(id);
 

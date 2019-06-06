@@ -7,6 +7,6 @@ namespace TutorSearch.Web.Services.ContactService
     {
         Task<Contacts> AddContactAsync();
 
-        Task UpdateContactsAsync(Contacts model);
+        Task UpdateContactAsync(Contacts model);
     }
 }

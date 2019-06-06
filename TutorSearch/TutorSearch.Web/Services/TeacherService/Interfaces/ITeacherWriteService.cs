@@ -7,6 +7,6 @@ namespace TutorSearch.Web.Services.TeacherService
     {
         Task AddTeacherAsync(Teacher model);
 
-        Task EditTeacherAsync(Teacher model);
+        Task UpdateTeacherAsync(Teacher model);
     }
 }

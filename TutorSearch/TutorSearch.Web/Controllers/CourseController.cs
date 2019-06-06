@@ -64,7 +64,7 @@ namespace TutorSearch.Web.Controllers
         [Route("{id:int}")]
         public async Task<object> GetCourse(int id)
         {
-            var course = await courseReadService.GetByIdAsync(id);
+            var course = await courseReadService.GetCourseAsync(id);
 
             if (course == null)
             {
@@ -134,7 +134,7 @@ namespace TutorSearch.Web.Controllers
 
             try
             {
-                var course = await courseReadService.GetByIdAsync(model.Id);
+                var course = await courseReadService.GetCourseAsync(model.Id);
 
                 if (course == null)
                 {
@@ -163,7 +163,7 @@ namespace TutorSearch.Web.Controllers
         {
             var result = new List<RequestViewModel>();
 
-            var requests = await courseReadService.GetCourseRequests(courseId);
+            var requests = await courseReadService.GetCourseRequestsAsync(courseId);
 
             requests.ForEach(m => result.Add(new RequestViewModel
             {
@@ -180,25 +180,25 @@ namespace TutorSearch.Web.Controllers
         }
 
         [Authorize]
-        [HttpDelete]
+        [HttpGet]
         [Route("{id:int}/Delete")]
         public async Task<object> DeleteCourse(int id)
         {
             try
             {
-                var course = await courseReadService.GetByIdAsync(id);
+                var course = await courseReadService.GetCourseAsync(id);
                 if (course == null)
                 {
                     return JsonResults.Error(404, "Course not found");
                 }
 
-                var requests = await requestReadService.GetByCourseIdAsync(id);
+                var requests = await requestReadService.GetRequestsByCourseIdAsync(id);
                 foreach (var request in requests)
                 {
-                    await requestWriteService.DeleteRequestAsync(request);
+                    await requestWriteService.RemoveRequestAsync(request);
                 }
 
-                await courseWriteService.DeleteCourseAsync(course);
+                await courseWriteService.RemoveCourseAsync(course);
 
                 return JsonResults.Success();
             }

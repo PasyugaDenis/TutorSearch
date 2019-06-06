@@ -8,6 +8,10 @@ namespace TutorSearch.Web.Repositories.MessageRepository
     {
         Task<Message> GetAsync(int id);
 
+        Task<List<Message>> GetUserMessagesAsync(int userId);
+
         Task<List<Message>> GetAllAsync();
+
+        Task<List<Message>> GetAllByChatIdAsync(int chatId);
     }
 }

@@ -14,14 +14,14 @@ namespace TutorSearch.Web.Services.RequestService
             this.requestReadRepository = requestReadRepository;
         }
 
-        public async Task<Request> GetByIdAsync(int id)
+        public async Task<Request> GetRequestAsync(int id)
         {
             var course = await requestReadRepository.GetAsync(id);
 
             return course;
         }
 
-        public async Task<List<Request>> GetAllByCourseIdAsync(int courseId)
+        public async Task<List<Request>> GetRequestsByCourseIdAsync(int courseId)
         {
             var course = await requestReadRepository.GetByCourseIdAsync(courseId);
 
