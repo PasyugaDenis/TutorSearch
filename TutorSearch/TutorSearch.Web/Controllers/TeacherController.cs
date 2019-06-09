@@ -9,6 +9,7 @@ using TutorSearch.Web.Models.Response;
 using TutorSearch.Web.Services.ContactService;
 using TutorSearch.Web.Services.TeacherService;
 using TutorSearch.Web.Services.UserService;
+using TutorSearch.Web.Services.CourseService;
 
 namespace TutorSearch.Web.Controllers
 {
@@ -24,13 +25,16 @@ namespace TutorSearch.Web.Controllers
         private IContactReadService contactsReadService;
         private IContactWriteService contactsWriteService;
 
+        private ICourseReadService courseReadService;
+
         public TeacherController(
             IUserReadService userReadService,
             IUserWriteService userWriteService,
             ITeacherReadService teacherReadService,
             ITeacherWriteService teacherWriteService,
             IContactReadService contactsReadService,
-            IContactWriteService contactsWriteService)
+            IContactWriteService contactsWriteService,
+            ICourseReadService courseReadService)
         {
             this.userReadService = userReadService;
             this.userWriteService = userWriteService;
@@ -40,6 +44,8 @@ namespace TutorSearch.Web.Controllers
 
             this.contactsReadService = contactsReadService;
             this.contactsWriteService = contactsWriteService;
+
+            this.courseReadService = courseReadService;
         }
 
         [AllowAnonymous]
@@ -182,6 +188,29 @@ namespace TutorSearch.Web.Controllers
                     Age = ((DateTime.UtcNow - item.User.Birthday).Days / countDaysOfYear)
                 });
             }
+
+            return JsonResults.Success(result);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("Requests/{userId:int}")]
+        public async Task<object> GetRequests(int userId)
+        {
+            var result = new List<RequestViewModel>();
+
+            var requests = await courseReadService.GetTeacherCourseRequestsAsync(userId);
+
+            requests.ForEach(m => result.Add(new RequestViewModel
+            {
+                Id = m.Id,
+                IsConfirmed = m.IsConfirmed,
+                IsClosed = m.IsClosed,
+                DateOfRegistration = m.DateOfRegistration,
+                Rating = m.Rating,
+                Comment = m.Comment,
+                StudentFullName = $"{m.Student.User.Name} {m.Student.User.Surname}"
+            }));
 
             return JsonResults.Success(result);
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -7,6 +8,7 @@ using TutorSearch.Web.Models.Request;
 using TutorSearch.Web.Models.Response;
 using TutorSearch.Web.Services.StudentService;
 using TutorSearch.Web.Services.UserService;
+using TutorSearch.Web.Services.CourseService;
 
 namespace TutorSearch.Web.Controllers
 {
@@ -19,17 +21,22 @@ namespace TutorSearch.Web.Controllers
         private IStudentReadService studentReadService;
         private IStudentWriteService studentWriteService;
 
+        private ICourseReadService courseReadService;
+
         public StudentController(
             IUserReadService userReadService,
             IUserWriteService userWriteService,
             IStudentReadService studentReadService,
-            IStudentWriteService studentWriteService)
+            IStudentWriteService studentWriteService,
+            ICourseReadService courseReadService)
         {
             this.userReadService = userReadService;
             this.userWriteService = userWriteService;
 
             this.studentReadService = studentReadService;
             this.studentWriteService = studentWriteService;
+
+            this.courseReadService = courseReadService;
         }
 
         [Authorize]
@@ -106,6 +113,30 @@ namespace TutorSearch.Web.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("Requests/{userId:int}")]
+        public async Task<object> GetRequests(int userId)
+        {
+            var result = new List<RequestViewModel>();
+
+            var requests = await courseReadService.GetStudentCourseRequestsAsync(userId);
+
+            requests.ForEach(m => result.Add(new RequestViewModel
+            {
+                Id = m.Id,
+                IsConfirmed = m.IsConfirmed,
+                IsClosed = m.IsClosed,
+                DateOfRegistration = m.DateOfRegistration,
+                Rating = m.Rating,
+                Comment = m.Comment,
+                StudentFullName = $"{m.Student.User.Name} {m.Student.User.Surname}"
+            }));
+
+            return JsonResults.Success(result);
+        }
+
+        //Utills
         private async Task<bool> CheckEmailAsync(string oldEmail, string newEmail)
         {
             if (oldEmail != newEmail)

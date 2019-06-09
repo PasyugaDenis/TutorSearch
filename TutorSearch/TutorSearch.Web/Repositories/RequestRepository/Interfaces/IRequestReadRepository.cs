@@ -11,5 +11,9 @@ namespace TutorSearch.Web.Repositories.RequestRepository
         Task<List<Request>> GetAllAsync();
 
         Task<List<Request>> GetByCourseIdAsync(int courseId);
+
+        Task<List<Request>> GetByTeacherIdAsync(int courseId);
+
+        Task<List<Request>> GetByStudentIdAsync(int courseId);
     }
 }
