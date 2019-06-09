@@ -48,6 +48,20 @@ namespace TutorSearch.Web.Services.CourseService
             return result;
         }
 
+        public async Task<List<Request>> GetTeacherCourseRequestsAsync(int userId)
+        {
+            var result = await requestReadRepository.GetByTeacherIdAsync(userId);
+
+            return result;
+        }
+
+        public async Task<List<Request>> GetStudentCourseRequestsAsync(int userId)
+        {
+            var result = await requestReadRepository.GetByStudentIdAsync(userId);
+
+            return result;
+        }
+
         private List<Course> Sort(List<Course> courses, string sortField, bool sortAscending)
         {
             IOrderedEnumerable<Course> result;
